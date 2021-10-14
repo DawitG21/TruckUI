@@ -1,8 +1,8 @@
 class Category {
-  String id;
-  String name;
-  String description;
-  double weight;
+  String? id;
+  String? name;
+  String? description;
+  double? weight;
 
   Category({
     required this.id,
