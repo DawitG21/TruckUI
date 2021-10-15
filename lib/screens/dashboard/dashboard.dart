@@ -13,7 +13,7 @@ class _DashBoardState extends State<DashBoard> {
     // ignore: avoid_unnecessary_containers
     return Container(
       child: const Text(
-        'Dummy Dashboard data',
+        'Dummy Dashboard Data',
       ),
     );
   }
