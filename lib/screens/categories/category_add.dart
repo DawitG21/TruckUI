@@ -101,6 +101,7 @@ class _CreateCategoryState extends State<CreateCategory> {
                         ],
                       ),
                     ),
+                    Divider(),
                     _buildForm,
                   ],
                 ),
