@@ -4,7 +4,7 @@ class Category {
   String? id;
   String? name;
   String? description;
-  double? weight;
+  var weight;
 
   Category({
     required this.id,

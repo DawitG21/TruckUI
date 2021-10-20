@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:truck_booking_admin/models/category.dart';
+import 'package:truck_booking_admin/providers/category_provider.dart';
 import 'package:truck_booking_admin/screens/categories/category_add.dart';
+import 'package:truck_booking_admin/screens/categories/category_edit.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
+import 'package:truck_booking_admin/widgets/category_view.dart';
 import 'package:truck_booking_admin/widgets/modal_side_list.dart';
 
 class CategoryList extends StatefulWidget {
@@ -30,11 +35,26 @@ class _CategoryListState extends State<CategoryList> {
   void didChangeDependencies() async {
     final SharedPreferences prefs = await _prefs;
     // await prefs.setString('trackui_key', encodedData);
-    final String? musicsString = prefs.getString('trackui_key');
+    final String? catString = prefs.getString('trackui_key');
     setState(() {
-      categories = Category.decode(musicsString!);
+      if (catString != null) {
+        categories = Category.decode(catString);
+      }
     });
     super.didChangeDependencies();
+  }
+
+  toastMessage(msg) {
+    Fluttertoast.showToast(
+      msg: "$msg",
+      timeInSecForIosWeb: 5,
+      webShowClose: true,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   _createCategory() {
@@ -43,6 +63,31 @@ class _CategoryListState extends State<CategoryList> {
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => const CreateCategory(),
         transitionDuration: const Duration(seconds: 0),
+      ),
+    );
+  }
+
+  _deleteCategory(id) async {
+    await Provider.of<CategoryProvider>(context, listen: false)
+        .deleteCategory(id);
+    final SharedPreferences prefs = await _prefs;
+    // await prefs.setString('trackui_key', encodedData);
+    final String? catString = prefs.getString('trackui_key');
+    setState(() {
+      if (catString != null) {
+        categories = Category.decode(catString);
+      }
+    });
+    toastMessage('Sucessful');
+  }
+
+  _editCategory(arg) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => const EditCategory(),
+        transitionDuration: const Duration(seconds: 0),
+        settings: RouteSettings(arguments: arg),
       ),
     );
   }
@@ -111,14 +156,14 @@ class _CategoryListState extends State<CategoryList> {
                             (element) => DataRow(
                               cells: [
                                 DataCell(Text(
-                                  element.name.toString().toUpperCase(),
+                                  element.name!.toString().toUpperCase(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
                                 DataCell(Text(
-                                  element.description.toString().toUpperCase(),
+                                  element.description!.toString().toUpperCase(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
-                                DataCell(Text(element.weight.toString())),
+                                DataCell(Text(element.weight!.toString())),
                                 DataCell(
                                   Row(
                                     children: [
@@ -130,95 +175,8 @@ class _CategoryListState extends State<CategoryList> {
                                             context: context,
                                             width: 500,
                                             ignoreAppBar: false,
-                                            body: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 100),
-                                              child: Column(
-                                                // ignore: prefer_const_literals_to_create_immutables
-                                                children: [
-                                                  Center(
-                                                    child: CircleAvatar(
-                                                      backgroundImage: AssetImage(
-                                                          'assets/images/tuck.jpg'),
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      radius: 70,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 100,
-                                                            vertical: 30),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      // ignore: prefer_const_literals_to_create_immutables
-                                                      children: [
-                                                        Center(
-                                                          // ignore: prefer_adjacent_string_concatenation
-                                                          child: Text('Car/Taxi Name' +
-                                                              '                  ' +
-                                                              'Medium trucks'),
-                                                        ),
-                                                        //Text('Medium trucks')
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  // ignore: prefer_const_literals_to_create_immutables
-                                                  Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                      horizontal: 100,
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      // ignore: prefer_const_literals_to_create_immutables
-                                                      children: [
-                                                        // ignore: prefer_adjacent_string_concatenation
-                                                        Text('Weight Details' +
-                                                            '                  ' +
-                                                            '6'),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                      horizontal: 100,
-                                                      vertical: 20,
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      // ignore: prefer_const_literals_to_create_immutables
-                                                      children: [
-                                                        Text('Description'),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 80.0),
-                                                            child: Text(
-                                                                'A pickup truck or pickup is a light-duty truck that has an enclosed cabin and an open cargo area with low sides and tailgate. In Australia and New Zealand, both pickups and coupé utilities are called utes, short for utility vehicle.'),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                            body: CategoryView(
+                                              element: element,
                                             ),
                                           );
                                         },
@@ -229,14 +187,14 @@ class _CategoryListState extends State<CategoryList> {
                                       IconButton(
                                         tooltip: 'Edit',
                                         onPressed: () async {
-                                          // _delete(element);
+                                          _editCategory(element);
                                         },
                                         icon: Icon(Icons.edit),
                                       ),
                                       IconButton(
                                         tooltip: 'Delete',
                                         onPressed: () async {
-                                          // _delete(element);
+                                          _deleteCategory(element.id);
                                         },
                                         icon: Icon(
                                           Icons.delete_forever,

@@ -10,33 +10,31 @@ import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class CreateCategory extends StatefulWidget {
-  const CreateCategory({Key? key}) : super(key: key);
+class EditCategory extends StatefulWidget {
+  static const routeName = '/category_edit';
+  const EditCategory({Key? key}) : super(key: key);
 
   @override
-  _CreateCategoryState createState() => _CreateCategoryState();
+  _EditCategoryState createState() => _EditCategoryState();
 }
 
-class _CreateCategoryState extends State<CreateCategory> {
+class _EditCategoryState extends State<EditCategory> {
   String defaultPic = 'assets/images/profile.jpg';
+  String id = '';
   TextEditingController name = TextEditingController();
   TextEditingController weight = TextEditingController();
   TextEditingController description = TextEditingController();
 
-  create() async {
+  save() async {
     Category category = Category(
-      id: DateTime.now().toString(),
+      id: id,
       name: name.text,
       description: description.text,
       weight: weight.text,
     );
     await Provider.of<CategoryProvider>(context, listen: false)
-        .addCategory(category);
-    // if (response) {
+        .editCategory(category);
     toastMessage('Sucessful');
-    // } else {
-    //   toastMessage('Fail');
-    // }
   }
 
   toastMessage(msg) {
@@ -50,6 +48,18 @@ class _CreateCategoryState extends State<CreateCategory> {
       textColor: Colors.white,
       fontSize: 16.0,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    final Category category =
+        ModalRoute.of(context)!.settings.arguments as Category;
+    name.text = category.name.toString();
+    description.text = category.description.toString();
+    weight.text = category.weight;
+    id = category.id.toString();
+
+    super.didChangeDependencies();
   }
 
   // ignore: prefer_typing_uninitialized_variables
@@ -112,29 +122,11 @@ class _CreateCategoryState extends State<CreateCategory> {
                                   MaterialStateProperty.all<Color>(Colors.blue),
                             ),
                             onPressed: () {
-                              create();
-                              //_createCategory();
+                              save();
+                              //_EditCategory();
                             },
                             child: const Text('Save'),
                           ),
-                          // TextButton(
-                          //   style: ButtonStyle(
-                          //     foregroundColor:
-                          //         MaterialStateProperty.all<Color>(Colors.blue),
-                          //   ),
-                          //   onPressed: () {
-                          //     Navigator.pushReplacement(
-                          //       context,
-                          //       PageRouteBuilder(
-                          //         pageBuilder: (_, __, ___) =>
-                          //             const IndexCategory(),
-                          //         transitionDuration:
-                          //             const Duration(seconds: 0),
-                          //       ),
-                          //     );
-                          //   },
-                          //   child: const Text('Back'),
-                          // ),
                         ],
                       ),
                     ),
