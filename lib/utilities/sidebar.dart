@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
+import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/widgets/drawerlist.dart';
@@ -65,7 +66,15 @@ class _SidebarState extends State<Sidebar> {
                   DrawerListTile(
                     title: "Customers",
                     icon: Icon(Icons.people_alt, color: AppTheme.sideBarText),
-                    press: null,
+                    press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => const IndexCustomers(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
                   DrawerListTile(
                     title: "Drivers",
