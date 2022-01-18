@@ -3,8 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:truck_booking_admin/models/customer.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/widgets/detail_preview_widget.dart';
-// import 'package:truck_booking_admin/widgets/detail_preview_widget.dart';
-import 'package:truck_booking_admin/widgets/modal_side_list.dart';
 
 class CustomerList extends StatefulWidget {
   const CustomerList({Key? key}) : super(key: key);
