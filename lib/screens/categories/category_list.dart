@@ -22,19 +22,19 @@ class CategoryList extends StatefulWidget {
 class _CategoryListState extends State<CategoryList> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   List<Category> categories = [];
-  // final String encodedData = Category.encode([
-  //   Category(
-  //       id: "ac3c1087-ecec-413f-9fdc-1f7b8ce99dfd",
-  //       name: "Heavy Truck",
-  //       description:
-  //           "a beautiful room fitted with a single bed and breathtaking ocean view.",
-  //       weight: 2),
-  // ]);
+  final String encodedData = Category.encode([
+    Category(
+        id: "ac3c1087-ecec-413f-9fdc-1f7b8ce99dfd",
+        name: "Heavy Truck",
+        description:
+            "a beautiful room fitted with a single bed and breathtaking ocean view.",
+        weight: "2"),
+  ]);
 
   @override
   void didChangeDependencies() async {
     final SharedPreferences prefs = await _prefs;
-    // await prefs.setString('trackui_key', encodedData);
+    //await prefs.setString('trackui_key', encodedData);
     final String? catString = prefs.getString('trackui_key');
     setState(() {
       if (catString != null) {
@@ -163,7 +163,7 @@ class _CategoryListState extends State<CategoryList> {
                                   element.description!.toString().toUpperCase(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
-                                DataCell(Text(element.weight!.toString())),
+                                DataCell(Text(element.weight.toString())),
                                 DataCell(
                                   Row(
                                     children: [
