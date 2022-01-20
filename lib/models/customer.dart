@@ -5,8 +5,9 @@ class Customer {
   String? name;
   String? email;
   String? phone;
-  String? date;
+  DateTime? date;
   bool? isActive;
+  String? address;
 
   Customer({
     required this.id,
@@ -15,6 +16,7 @@ class Customer {
     required this.phone,
     required this.date,
     required this.isActive,
+    required this.address,
   });
 
   factory Customer.fromJson(Map<String, dynamic> jsonData) {
@@ -23,8 +25,9 @@ class Customer {
       name: jsonData['name'],
       email: jsonData['email'],
       phone: jsonData['phone'],
-      date: jsonData['date'],
+      date: DateTime.parse(jsonData['date']),
       isActive: jsonData['isActive'],
+      address: jsonData['address'],
     );
   }
 
@@ -33,8 +36,9 @@ class Customer {
         'name': customer.name,
         'email': customer.email,
         'phone': customer.phone,
-        'date': customer.date,
+        'date': customer.date!.toIso8601String(),
         'isActive': customer.isActive,
+        'address': customer.address,
       };
 
   static String encode(List<Customer> customer) => json.encode(

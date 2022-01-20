@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:truck_booking_admin/providers/category_provider.dart';
-import 'package:truck_booking_admin/providers/driver_provider.dart';
+import 'package:truck_booking_admin/providers/customer_provider.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -12,7 +12,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (context) => MenuController()),
       ChangeNotifierProvider.value(value: CategoryProvider()),
-      ChangeNotifierProvider.value(value: DriverProvider())
+      ChangeNotifierProvider.value(value: CustomerProvider()),
     ],
     child: const MyApp(),
   ));

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:truck_booking_admin/models/customer.dart';
+import 'package:truck_booking_admin/providers/customer_provider.dart';
+import 'package:truck_booking_admin/screens/customers/customer_add.dart';
+import 'package:truck_booking_admin/screens/customers/customer_edit.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/widgets/detail_preview_widget.dart';
+import 'package:intl/intl.dart';
 
 class CustomerList extends StatefulWidget {
   const CustomerList({Key? key}) : super(key: key);
@@ -20,20 +26,68 @@ class _CustomerListState extends State<CustomerList> {
       name: "Jane Doe",
       email: "janedoe@gmail.com",
       phone: "+251 912 6789",
-      date: "1/4/2022",
+      date: DateTime.now(),
       isActive: true,
+      address: "Addis Ababa, Ethiopia",
     ),
   ]);
 
   @override
   void didChangeDependencies() async {
     final SharedPreferences prefs = await _prefs;
-    await prefs.setString('customer_key', encodedData);
+    // await prefs.setString('customer_key', encodedData);
     final String? storageKey = prefs.getString('customer_key');
     setState(() {
       customers = Customer.decode(storageKey!);
     });
     super.didChangeDependencies();
+  }
+
+  _createCustomer() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => const CustomerAdd(),
+        transitionDuration: const Duration(seconds: 0),
+      ),
+    );
+  }
+
+  _editCustomers(arg) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => const CustomerEdit(),
+        transitionDuration: const Duration(seconds: 0),
+        settings: RouteSettings(arguments: arg),
+      ),
+    );
+  }
+
+  _deleteCustomer(id) async {
+    await Provider.of<CustomerProvider>(context, listen: false)
+        .deleteCustomer(id);
+    final SharedPreferences prefs = await _prefs;
+    final String? cusString = prefs.getString('customer_key');
+    setState(() {
+      if (cusString != null) {
+        customers = Customer.decode(cusString);
+      }
+    });
+    toastMessage('Sucessful');
+  }
+
+  toastMessage(msg) {
+    Fluttertoast.showToast(
+      msg: "$msg",
+      timeInSecForIosWeb: 5,
+      webShowClose: true,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   @override
@@ -54,7 +108,7 @@ class _CustomerListState extends State<CustomerList> {
                         MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () {
-                    // _createCategory();
+                    _createCustomer();
                   },
                   child: const Text('Create Customer'),
                 ),
@@ -114,7 +168,7 @@ class _CustomerListState extends State<CustomerList> {
                                   overflow: TextOverflow.ellipsis,
                                 )),
                                 DataCell(Text(
-                                  element.email.toString().toUpperCase(),
+                                  element.email.toString(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
                                 DataCell(Text(
@@ -122,7 +176,8 @@ class _CustomerListState extends State<CustomerList> {
                                   overflow: TextOverflow.ellipsis,
                                 )),
                                 DataCell(Text(
-                                  element.date.toString().toUpperCase(),
+                                  DateFormat("yyyy-MM-dd")
+                                      .format(element.date!),
                                   overflow: TextOverflow.ellipsis,
                                 )),
                                 DataCell(element.isActive!
@@ -130,26 +185,28 @@ class _CustomerListState extends State<CustomerList> {
                                     : const Text("Inactive")),
                                 DataCell(Row(
                                   children: [
-                                    const CustomerDetailPreview(
-                                        'Jane Doe Hart',
+                                    CustomerDetailPreview(
+                                        element.name!,
                                         'assets/images/profile.jpg',
-                                        'janedoe@gmail.com',
-                                        '+251912908865',
-                                        'Bole, Addis Ababa, Ethiopia',
-                                        'Registered on - 2021-01-12',
+                                        element.email!,
+                                        element.phone!,
+                                        element.address!,
+                                        'Registered on - ' +
+                                            DateFormat("yyyy-MM-dd")
+                                                .format(element.date!),
                                         1),
                                     // IconButton(onPressed: onPressed, icon: icon)
                                     IconButton(
                                       tooltip: 'Edit',
                                       onPressed: () async {
-                                        // _delete(element);
+                                        _editCustomers(element);
                                       },
                                       icon: const Icon(Icons.edit),
                                     ),
                                     IconButton(
                                       tooltip: 'Delete',
                                       onPressed: () async {
-                                        // _delete(element);
+                                        _deleteCustomer(element.id);
                                       },
                                       icon: const Icon(
                                         Icons.delete_forever,
