@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:truck_booking_admin/screens/City/index.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
@@ -48,7 +49,15 @@ class _SidebarState extends State<Sidebar> {
                   DrawerListTile(
                     title: "City",
                     icon: Icon(Icons.apartment, color: AppTheme.sideBarText),
-                    press: null,
+                   press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => const IndexCity(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
                   DrawerListTile(
                     title: "Truck Categories",
