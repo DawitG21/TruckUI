@@ -22,6 +22,7 @@ class _CustomerEditState extends State<CustomerEdit> {
   TextEditingController phone = TextEditingController();
   TextEditingController address = TextEditingController();
   String _id = '';
+  // ignore: prefer_typing_uninitialized_variables
   var _imageFile;
   bool _isActive = true;
   DateTime _date = DateTime.now();

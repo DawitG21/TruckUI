@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,13 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:truck_booking_admin/models/city.dart';
 import 'package:truck_booking_admin/providers/city_provider.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
-import 'package:truck_booking_admin/screens/City/add_city.dart';
-import 'package:truck_booking_admin/screens/City/city_list.dart';
 import 'package:truck_booking_admin/screens/City/index.dart';
-//import 'package:truck_booking_admin/screens/City/index.dart';
-
-
-
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
 
@@ -65,8 +58,7 @@ class _EditCityState extends State<EditCity> {
       // isActive: _isActive,
       // date: _date,
     );
-    await Provider.of<CityProvider>(context, listen: false)
-        .editCity(city);
+    await Provider.of<CityProvider>(context, listen: false).editCity(city);
     toastMessage('Sucessful');
   }
 

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:truck_booking_admin/models/city.dart';
 import 'package:truck_booking_admin/screens/City/add_city.dart';
@@ -63,40 +62,6 @@ class _CityListState extends State<CityList> {
       fontSize: 16.0,
     );
   }
-
-  // _createCity() {
-  //   Navigator.pushReplacement(
-  //     context,
-  //     PageRouteBuilder(
-  //       pageBuilder: (_, __, ___) => const CreateCity(),
-  //       transitionDuration: const Duration(seconds: 0),
-  //     ),
-  //   );
-  // }
-
-  // _deleteCity(id) async {
-  //   await Provider.of<CityProvider>(context, listen: false).deleteCustomer(id);
-  //   final SharedPreferences prefs = await _prefs;
-  //   await prefs.setString('city_key', encodedData);
-  //   final String? cityString = prefs.getString('city_key');
-  //   setState(() {
-  //     if (cityString != null) {
-  //       cities = City.decode(cityString);
-  //     }
-  //   });
-  //   toastMessage('Sucessful');
-  // }
-
-  // _editCity(arg) {
-  //   Navigator.pushReplacement(
-  //     context,
-  //     PageRouteBuilder(
-  //       pageBuilder: (_, __, ___) => const EditCity(),
-  //       transitionDuration: const Duration(seconds: 0),
-  //       settings: RouteSettings(arguments: arg),
-  //     ),
-  //   );
-  // }
 
   _createCity() {
     Navigator.pushReplacement(
@@ -219,7 +184,7 @@ class _CityListState extends State<CityList> {
                         )),
                         DataColumn(
                             label: Text(
-                          'Action',
+                          '',
                           overflow: TextOverflow.ellipsis,
                         )),
                       ],
