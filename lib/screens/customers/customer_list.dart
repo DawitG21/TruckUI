@@ -92,155 +92,152 @@ class _CustomerListState extends State<CustomerList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(15),
-            color: AppTheme.contentTextHeader,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Customers"),
-                TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
-                  ),
-                  onPressed: () {
-                    _createCustomer();
-                  },
-                  child: const Text('Create Customer'),
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(15),
+          color: AppTheme.contentTextHeader,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Customers"),
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
                 ),
-              ],
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 30.0, right: 30.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: const BouncingScrollPhysics(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: DataTable(
-                      columns: const [
-                        DataColumn(
-                          label: Text(
-                            'Name',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Email',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Phone',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Registered Date',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        DataColumn(
-                          label: Text(
-                            'Status',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        DataColumn(label: Text('')),
-                      ],
-                      rows: customers
-                          .map<DataRow>(
-                            (element) => DataRow(
-                              cells: [
-                                DataCell(Text(
-                                  element.name.toString().toUpperCase(),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                                DataCell(Text(
-                                  element.email.toString(),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                                DataCell(Text(
-                                  element.phone.toString().toUpperCase(),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                                DataCell(Text(
-                                  DateFormat("yyyy-MM-dd")
-                                      .format(element.date!),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                                DataCell(element.isActive!
-                                    ? const Text("Active")
-                                    : const Text("Inactive")),
-                                DataCell(Row(
-                                  children: [
-                                    CustomerDetailPreview(
-                                        element.name!,
-                                        'assets/images/profile.jpg',
-                                        element.email!,
-                                        element.phone!,
-                                        element.address!,
-                                        'Registered on - ' +
-                                            DateFormat("yyyy-MM-dd")
-                                                .format(element.date!),
-                                        1),
-                                    // IconButton(onPressed: onPressed, icon: icon)
-                                    IconButton(
-                                      tooltip: 'Edit',
-                                      onPressed: () async {
-                                        _editCustomers(element);
-                                      },
-                                      icon: const Icon(Icons.edit),
-                                    ),
-                                    IconButton(
-                                      tooltip: 'Delete',
-                                      onPressed: () async {
-                                        _deleteCustomer(element.id);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete_forever,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  )
-                ],
+                onPressed: () {
+                  _createCustomer();
+                },
+                child: const Text('Create Customer'),
               ),
-            ),
+            ],
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            padding: const EdgeInsets.all(25),
+        ),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 30.0, right: 30.0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: const BouncingScrollPhysics(),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // ignore: prefer_const_literals_to_create_immutables
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text("Showing 4 out of 4 Results"),
-                const Text(
-                  "Next Page",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                Expanded(
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(
+                        label: Text(
+                          'Name',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Email',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Phone',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Registered Date',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Status',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      DataColumn(label: Text('')),
+                    ],
+                    rows: customers
+                        .map<DataRow>(
+                          (element) => DataRow(
+                            cells: [
+                              DataCell(Text(
+                                element.name.toString().toUpperCase(),
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                              DataCell(Text(
+                                element.email.toString(),
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                              DataCell(Text(
+                                element.phone.toString().toUpperCase(),
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                              DataCell(Text(
+                                DateFormat("yyyy-MM-dd").format(element.date!),
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                              DataCell(element.isActive!
+                                  ? const Text("Active")
+                                  : const Text("Inactive")),
+                              DataCell(Row(
+                                children: [
+                                  CustomerDetailPreview(
+                                      element.name!,
+                                      'assets/images/profile.jpg',
+                                      element.email!,
+                                      element.phone!,
+                                      element.address!,
+                                      'Registered on - ' +
+                                          DateFormat("yyyy-MM-dd")
+                                              .format(element.date!),
+                                      1),
+                                  // IconButton(onPressed: onPressed, icon: icon)
+                                  IconButton(
+                                    tooltip: 'Edit',
+                                    onPressed: () async {
+                                      _editCustomers(element);
+                                    },
+                                    icon: const Icon(Icons.edit),
+                                  ),
+                                  IconButton(
+                                    tooltip: 'Delete',
+                                    onPressed: () async {
+                                      _deleteCustomer(element.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete_forever,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                )
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.all(25),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              const Text("Showing 4 out of 4 Results"),
+              const Text(
+                "Next Page",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

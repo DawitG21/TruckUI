@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:truck_booking_admin/screens/City/index.dart';
+import 'package:truck_booking_admin/screens/booking/booking_request.dart';
+import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
+import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
@@ -49,7 +52,7 @@ class _SidebarState extends State<Sidebar> {
                   DrawerListTile(
                     title: "City",
                     icon: Icon(Icons.apartment, color: AppTheme.sideBarText),
-                   press: () {
+                    press: () {
                       Navigator.pushReplacement(
                         context,
                         PageRouteBuilder(
@@ -99,10 +102,128 @@ class _SidebarState extends State<Sidebar> {
                       );
                     },
                   ),
-                  DrawerListTile(
-                    title: "Booking",
-                    icon: Icon(Icons.menu_book, color: AppTheme.sideBarText),
-                    press: null,
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.symmetric(horizontal: 18),
+                    // collapsedBackgroundColor: Colors.white,
+                    // initiallyExpanded: true,
+                    iconColor: Colors.white,
+                    title: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 9.0),
+                          child: Icon(
+                            Icons.description,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Booking',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const CustomerBookingList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.people_alt,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Customer Booking',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const DriverBookingList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.drive_eta,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Driver Booking',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const BookingRequestList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.today,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Booking Requests',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   DrawerListTile(
                     title: "Revenue Management",

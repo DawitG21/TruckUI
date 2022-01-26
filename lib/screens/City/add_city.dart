@@ -46,11 +46,11 @@ class _CreateCityState extends State<CreateCity> {
   //   );
   // }
 
-   create() async {
+  create() async {
     City city = City(
       id: DateTime.now().toString(),
       name: cityName.text,
-         radius: double.parse(radius.text),
+      radius: double.parse(radius.text),
 
       // radius: radius.text.toString(),
       // phone: phone.text,
@@ -58,10 +58,10 @@ class _CreateCityState extends State<CreateCity> {
       // isActive: _isActive,
       // address: address.text,
     );
-    await Provider.of<CityProvider>(context, listen: false)
-        .addCity(city);
+    await Provider.of<CityProvider>(context, listen: false).addCity(city);
     toastMessage('Sucessful');
   }
+
   toastMessage(msg) {
     Fluttertoast.showToast(
       msg: "$msg",
@@ -75,13 +75,12 @@ class _CreateCityState extends State<CreateCity> {
     );
   }
 
-
   @override
 
   // ignore: prefer_const_constructors
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Sidebar(),
+      drawer: const Sidebar(),
       key: Provider.of<MenuController>(context, listen: false).scaffoldKey,
       // backgroundColor: AppColor.bgSideMenu,
       body: SafeArea(
@@ -166,7 +165,7 @@ class _CreateCityState extends State<CreateCity> {
                       ),
                       //City(),
                       // ignore: prefer_const_constructors
-                   const   Divider(),
+                      const Divider(),
                       _buildForm,
                     ],
                   ),
