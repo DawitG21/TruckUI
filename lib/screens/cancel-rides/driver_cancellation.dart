@@ -1,74 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:truck_booking_admin/models/driver_booking_detail.dart';
+import 'package:truck_booking_admin/models/cancel_ride.dart';
+import 'package:truck_booking_admin/models/quotation.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
-import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
-import 'package:truck_booking_admin/widgets/driver_booking_detail_view.dart';
+import 'package:truck_booking_admin/widgets/driver_rides_preview.dart';
 
-class DriverBookingDetail extends StatefulWidget {
-  const DriverBookingDetail({Key? key}) : super(key: key);
+class DriverCancellationList extends StatefulWidget {
+  const DriverCancellationList({Key? key}) : super(key: key);
 
   @override
-  _DriverBookingDetailState createState() => _DriverBookingDetailState();
+  _DriverCancellationListState createState() => _DriverCancellationListState();
 }
 
-class _DriverBookingDetailState extends State<DriverBookingDetail> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-  List<DriverBookingDetails> customerBookings = [];
-  final String encodedData = DriverBookingDetails.encode([
-    DriverBookingDetails(
-      id: "ac3c1087-ecec-413f-9fdc-1f7b8ce99ops",
-      quotationId: 'QID4556uyoewiurioewu',
-      date: DateTime.now(),
-      orderStatus: 'Delivered',
-      totalFare: 3595,
-    ),
-    DriverBookingDetails(
-      id: "ac3c1dfd087-ecec-413f-9fdc-1f7b8ce9d9ops",
-      quotationId: 'QID343jkhwiurioewu',
-      date: DateTime.now(),
-      orderStatus: 'In Ride',
-      totalFare: 357495,
-    ),
-    DriverBookingDetails(
-      id: "ac3cfdf1087-ecec-413f-9fdc-1f7b8asce99ops",
-      quotationId: 'QID576sj54454iurioewu',
-      date: DateTime.now(),
-      orderStatus: 'In Ride',
-      totalFare: 43595,
-    ),
+class _DriverCancellationListState extends State<DriverCancellationList> {
+  List<CancelRides> driverCancelRidesNew = [];
+  final List<CancelRides> driverCancelRides = ([
+    CancelRides(
+      id: 'ac3c1087-ecec-413f-9fdc-1f7b8ceop',
+      cancelReason: 'Customer not responding',
+      cancelType: 'Free',
+      totalBookings: 3,
+      quotations: [
+        Quotation(
+            quotationId: 'Book-000-003',
+            customerName: 'Jane Doe',
+            customerEmail: 'jane@gmail.com',
+            customerPhone: '+251-989-1256',
+            pickupDate: DateTime.now(),
+            pickupLocation: 'Bole, Airport Road',
+            dropLocation: 'Bole, Sunshine Realestate',
+            truckCategory: 'Heavy Truck',
+            truckSubCategory: '8 Ton',
+            recieverName: 'Dawit G',
+            revieverPhone: '+251-976-445-590',
+            quoteDate: DateTime.now(),
+            status: 'Quote Active',
+            driverName: 'Chala Kebede',
+            driverPhone: '+251-912-999-654',
+            driverEmail: 'chala@gmail.com'),
+        Quotation(
+            quotationId: 'Book-000-005',
+            customerName: 'Dani Doe',
+            customerEmail: 'dani@gmail.com',
+            customerPhone: '+251-989-12786',
+            pickupDate: DateTime.now(),
+            pickupLocation: 'Bulbula, Airport Road',
+            dropLocation: 'Lafto, Sunshine Realestate',
+            truckCategory: 'Heavy Truck',
+            truckSubCategory: '9 Ton',
+            recieverName: 'Chaltu G',
+            revieverPhone: '+251-976-445-590',
+            quoteDate: DateTime.now(),
+            status: 'Quote Active',
+            driverName: 'Tolosa Kebede',
+            driverPhone: '+251-912-999-654',
+            driverEmail: 'tolosa@gmail.com'),
+        Quotation(
+            quotationId: 'Book-000-009',
+            customerName: 'Jane Doe',
+            customerEmail: 'jane@gmail.com',
+            customerPhone: '+251-989-1256',
+            pickupDate: DateTime.now(),
+            pickupLocation: 'Gerji, Bole Sub City',
+            dropLocation: 'Ayat, Helen bldg.',
+            truckCategory: 'Medium Truck',
+            truckSubCategory: '5 Ton',
+            recieverName: 'Muluken T',
+            revieverPhone: '+251-912-459-098',
+            quoteDate: DateTime.now(),
+            status: 'Quote Active',
+            driverName: 'Miskin Chala',
+            driverPhone: '+251-541-651-222',
+            driverEmail: 'mule@gmail.com')
+      ],
+    )
   ]);
-
-  @override
-  void didChangeDependencies() async {
-    final SharedPreferences prefs = await _prefs;
-    await prefs.setString('customerBookingDetail_key', encodedData);
-    final String? storageKey = prefs.getString('customerBookingDetail_key');
-    setState(() {
-      customerBookings = DriverBookingDetails.decode(storageKey!);
-      //print(cities);
-    });
-    super.didChangeDependencies();
-  }
-
-  toastMessage(msg) {
-    Fluttertoast.showToast(
-      msg: "$msg",
-      timeInSecForIosWeb: 5,
-      webShowClose: true,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,24 +101,14 @@ class _DriverBookingDetailState extends State<DriverBookingDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            InkWell(
-                              child: const Icon(Icons.arrow_back_ios),
-                              onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) =>
-                                        const DriverBookingList(),
-                                    transitionDuration:
-                                        const Duration(seconds: 0),
-                                  ),
-                                );
-                              },
-                            ),
-                            const Text("Din Studio"),
-                          ],
+                        const Text("Driver Cancellation Rides"),
+                        TextButton(
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.blue),
+                          ),
+                          onPressed: null,
+                          child: const Text(''),
                         ),
                       ],
                     ),
@@ -130,25 +128,25 @@ class _DriverBookingDetailState extends State<DriverBookingDetail> {
                               columns: const [
                                 DataColumn(
                                   label: Text(
-                                    'Quotation ID',
+                                    'Driver Name',
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Date',
+                                    'Email',
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Order Status',
+                                    'Phone',
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Total Fare',
+                                    'Booking Number',
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -158,39 +156,37 @@ class _DriverBookingDetailState extends State<DriverBookingDetail> {
                                   overflow: TextOverflow.ellipsis,
                                 )),
                               ],
-                              rows: customerBookings
+                              rows: driverCancelRides
                                   .map<DataRow>(
                                     (element) => DataRow(
                                       cells: [
                                         DataCell(Text(
-                                          element.quotationId
-                                              .toString()
-                                              .toUpperCase(),
+                                          element.quotations![0].driverName
+                                              .toString(),
                                           overflow: TextOverflow.ellipsis,
                                         )),
                                         DataCell(Text(
-                                          element.date.toString(),
+                                          element.quotations![0].driverEmail
+                                              .toString(),
                                           overflow: TextOverflow.ellipsis,
                                         )),
                                         DataCell(Text(
-                                          element.orderStatus.toString(),
+                                          element.quotations![0].driverPhone
+                                              .toString(),
                                           overflow: TextOverflow.ellipsis,
                                         )),
                                         DataCell(Text(
-                                          element.totalFare.toString(),
+                                          element.totalBookings.toString(),
                                           overflow: TextOverflow.ellipsis,
                                         )),
                                         DataCell(
                                           Row(
-                                            // ignore: prefer_const_literals_to_create_immutables
                                             children: [
-                                              DriverBookingPreview(
-                                                element.quotationId!,
-                                                'Registered on - ' +
-                                                    DateFormat("yyyy-MM-dd")
-                                                        .format(element.date!),
-                                                element.orderStatus!,
-                                                element.totalFare!,
+                                              DriverRidesPreview(
+                                                element.cancelReason!,
+                                                element.cancelType!,
+                                                element.totalBookings!,
+                                                element.quotations!,
                                               ),
                                             ],
                                           ),
