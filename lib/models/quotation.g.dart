@@ -13,6 +13,7 @@ Quotation _$QuotationFromJson(Map<String, dynamic> json) => Quotation(
       customerPhone: json['customerPhone'] as String?,
       driverName: json['driverName'] as String?,
       driverPhone: json['driverPhone'] as String?,
+      driverEmail: json['driverEmail'] as String?,
       driverQuotedAmount: (json['driverQuotedAmount'] as num?)?.toDouble(),
       pickupDate: json['pickupDate'] == null
           ? null
@@ -36,6 +37,7 @@ Map<String, dynamic> _$QuotationToJson(Quotation instance) => <String, dynamic>{
       'customerPhone': instance.customerPhone,
       'driverName': instance.driverName,
       'driverPhone': instance.driverPhone,
+      'driverEmail': instance.driverEmail,
       'driverQuotedAmount': instance.driverQuotedAmount,
       'pickupDate': instance.pickupDate?.toIso8601String(),
       'pickupLocation': instance.pickupLocation,

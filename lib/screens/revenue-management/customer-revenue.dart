@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:truck_booking_admin/models/quotation.dart';
-import 'package:truck_booking_admin/models/revenue.dart';
 import 'package:truck_booking_admin/models/revenue_new.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/widgets/customer_revenue_preview.dart';
@@ -15,7 +14,6 @@ class CustomerRevenue extends StatefulWidget {
 }
 
 class _CustomerRevenueState extends State<CustomerRevenue> {
-  List<Revenue> revenues = [];
   List<RevenueNew> revenuesNew = [];
 
   final List<RevenueNew> encodedData2 = ([

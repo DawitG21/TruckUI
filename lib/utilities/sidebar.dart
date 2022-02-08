@@ -5,6 +5,8 @@ import 'package:truck_booking_admin/screens/City/index.dart';
 import 'package:truck_booking_admin/screens/booking/booking_request.dart';
 import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
 import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
+import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
+import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
@@ -322,10 +324,99 @@ class _SidebarState extends State<Sidebar> {
                   //       Icon(Icons.point_of_sale, color: AppTheme.sideBarText),
                   //   press: null,
                   // ),
-                  DrawerListTile(
-                    title: "Cancel Rides",
-                    icon: Icon(Icons.rule_folder, color: AppTheme.sideBarText),
-                    press: null,
+                  // DrawerListTile(
+                  //   title: "Cancel Rides",
+                  //   icon: Icon(Icons.rule_folder, color: AppTheme.sideBarText),
+                  //   press: null,
+                  // ),
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.symmetric(horizontal: 18),
+                    iconColor: Colors.white,
+                    title: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 9.0),
+                          child: Icon(
+                            Icons.rule_folder,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Cancel Rides',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const CustomerCancellationList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.people_alt,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Customer Cancellation',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const DriverCancellationList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.drive_eta,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Driver Cancellation',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   DrawerListTile(
                     title: "Truck Location",

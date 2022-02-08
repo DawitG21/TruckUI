@@ -12,6 +12,7 @@ class Quotation {
   String? customerPhone;
   String? driverName;
   String? driverPhone;
+  String? driverEmail;
   double? driverQuotedAmount;
   DateTime? pickupDate;
   String? pickupLocation;
@@ -30,6 +31,7 @@ class Quotation {
     required this.customerPhone,
     this.driverName,
     this.driverPhone,
+    this.driverEmail,
     this.driverQuotedAmount,
     required this.pickupDate,
     required this.pickupLocation,
@@ -93,11 +95,12 @@ class Quotation {
   //         .map<Quotation>((item) => Quotation.fromJson(item))
   //         .toList();
 
-
-/// A necessary factory constructor for creating a new User instance
+  /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$AddressFromJson()` constructor.
   /// The constructor is named after the source class, in this case, User.
-  factory Quotation.fromJson(Map<String, dynamic> json) => _$QuotationFromJson(json);
+  factory Quotation.fromJson(Map<String, dynamic> json) =>
+      _$QuotationFromJson(json);
+
   /// `toJson` is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
   /// helper method `_$RAddressToJson`.
