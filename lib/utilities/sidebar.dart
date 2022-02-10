@@ -13,6 +13,8 @@ import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/screens/drivers/index.dart';
 import 'package:truck_booking_admin/screens/revenue-management/index-driver-revenue.dart';
 import 'package:truck_booking_admin/screens/revenue-management/index.dart';
+import 'package:truck_booking_admin/screens/truck_location/customer_view.dart';
+import 'package:truck_booking_admin/screens/truck_location/driver_view.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/widgets/drawerlist.dart';
 
@@ -31,6 +33,8 @@ class _SidebarState extends State<Sidebar> {
     return Drawer(
       child: Scrollbar(
         isAlwaysShown: true,
+
+    
         controller: _controllerOne,
         child: ListView(
           controller: _controllerOne,
@@ -53,6 +57,7 @@ class _SidebarState extends State<Sidebar> {
                       );
                     },
                   ),
+
                   DrawerListTile(
                     title: "City",
                     icon: Icon(Icons.apartment, color: AppTheme.sideBarText),
@@ -66,6 +71,8 @@ class _SidebarState extends State<Sidebar> {
                       );
                     },
                   ),
+
+                  //
                   DrawerListTile(
                     title: "Truck Categories",
                     icon:
@@ -418,11 +425,107 @@ class _SidebarState extends State<Sidebar> {
                       ),
                     ],
                   ),
-                  DrawerListTile(
-                    title: "Truck Location",
-                    icon: Icon(Icons.room, color: AppTheme.sideBarText),
-                    press: null,
+
+                  //Truck Location
+
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.symmetric(horizontal: 18),
+                    iconColor: Colors.white,
+                    title: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 9.0),
+                          child: Icon(
+                            Icons.room,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Truck Location',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                   CustomerView(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.map,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Customer Map View',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) =>
+                                  const DriverView(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.map_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Driver Map View',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+
+                  // DrawerListTile(
+                  //   title: "Truck Location",
+                  //   icon: Icon(Icons.room, color: AppTheme.sideBarText),
+                  //   press: null,
+                  // ),
+
+                  //Truck Location
+
                   DrawerListTile(
                     title: "Coupons",
                     icon:
