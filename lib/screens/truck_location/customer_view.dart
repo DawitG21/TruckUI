@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 //rimport 'package:truck_booking_admin/screens/truck_location/index_map_view.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
-import 'package:truck_booking_admin/widgets/modal_side_list.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
-import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:provider/provider.dart';
 
 class CustomerView extends StatefulWidget {
@@ -72,28 +70,24 @@ class _CustomerViewState extends State<CustomerView> {
                                   label: Text(
                                     'Sl No.',
                                     overflow: TextOverflow.ellipsis,
-                                   
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Customer Name',
                                     overflow: TextOverflow.ellipsis,
-                                    
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Customer Mobile',
                                     overflow: TextOverflow.ellipsis,
-                                   
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Customer Status',
                                     overflow: TextOverflow.ellipsis,
-                                   
                                   ),
                                 ),
                                 DataColumn(label: Text('')),
@@ -161,10 +155,8 @@ class _CustomerViewState extends State<CustomerView> {
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 0),
                     padding: const EdgeInsets.all(25),
-                    
                     width: 400.0,
                     child: Column(
-                      
                       children: const [
                         //Text('Search The Location'),
 
@@ -188,8 +180,12 @@ class _CustomerViewState extends State<CustomerView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         // ignore: prefer_const_literals_to_create_immutables
                         children: const [
-                          Text("No of Free Customers : ",style: TextStyle(
-                              fontWeight: FontWeight.bold,),),
+                          Text(
+                            "No of Free Customers : ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           Text(
                             "O Customers ",
                             style: TextStyle(
@@ -197,19 +193,22 @@ class _CustomerViewState extends State<CustomerView> {
                               decoration: TextDecoration.underline,
                               color: Colors.red,
                             ),
-                            
                           ),
-                          Text("No of Occupied  Customers : ",style: TextStyle(
-                              fontWeight: FontWeight.bold,),),
                           Text(
-                            'O Customers ',style: TextStyle(
+                            "No of Occupied  Customers : ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'O Customers ',
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
                               decoration: TextDecoration.underline,
                               color: Colors.green,
-                              
+                            ),
                           ),
-                          
-                           ), ],
+                        ],
                       ),
                     ),
                   ),

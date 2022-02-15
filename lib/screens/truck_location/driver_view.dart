@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 // import 'package:truck_booking_admin/screens/truck_location/index_map_view.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
-import 'package:truck_booking_admin/widgets/modal_side_list.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
-import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:provider/provider.dart';
 
 class DriverView extends StatefulWidget {
@@ -69,28 +67,24 @@ class _DriverViewState extends State<DriverView> {
                                   label: Text(
                                     'Sl No.',
                                     overflow: TextOverflow.ellipsis,
-                                    
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Driver Name',
                                     overflow: TextOverflow.ellipsis,
-                                    
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Driver Mobile',
                                     overflow: TextOverflow.ellipsis,
-                                    
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Driver Status',
                                     overflow: TextOverflow.ellipsis,
-                                    
                                   ),
                                 ),
                                 DataColumn(label: Text('')),
@@ -153,7 +147,6 @@ class _DriverViewState extends State<DriverView> {
                             const Text("Showing 0 out of 0 Results"),
                             const Text(
                               "Next Page",
-                              
                             ),
                           ],
                         ),

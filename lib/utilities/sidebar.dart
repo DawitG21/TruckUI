@@ -5,6 +5,7 @@ import 'package:truck_booking_admin/screens/City/index.dart';
 import 'package:truck_booking_admin/screens/booking/booking_request.dart';
 import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
 import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
+import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
@@ -33,8 +34,6 @@ class _SidebarState extends State<Sidebar> {
     return Drawer(
       child: Scrollbar(
         isAlwaysShown: true,
-
-    
         controller: _controllerOne,
         child: ListView(
           controller: _controllerOne,
@@ -456,8 +455,7 @@ class _SidebarState extends State<Sidebar> {
                           Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                   CustomerView(),
+                              pageBuilder: (_, __, ___) => CustomerView(),
                               transitionDuration: const Duration(seconds: 0),
                             ),
                           );
@@ -488,8 +486,7 @@ class _SidebarState extends State<Sidebar> {
                           Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const DriverView(),
+                              pageBuilder: (_, __, ___) => const DriverView(),
                               transitionDuration: const Duration(seconds: 0),
                             ),
                           );
@@ -540,7 +537,15 @@ class _SidebarState extends State<Sidebar> {
                   DrawerListTile(
                     title: "Cancel Reasons",
                     icon: Icon(Icons.close, color: AppTheme.sideBarText),
-                    press: null,
+                    press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => CancelReasonsIndex(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
                   DrawerListTile(
                     title: "Admins",
