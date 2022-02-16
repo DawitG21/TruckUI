@@ -5,13 +5,16 @@ import 'package:truck_booking_admin/screens/City/index.dart';
 import 'package:truck_booking_admin/screens/booking/booking_request.dart';
 import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
 import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
-import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/screens/drivers/index.dart';
+
+import 'package:truck_booking_admin/screens/important_pages/list_of_pages.dart';
+
+
 import 'package:truck_booking_admin/screens/revenue-management/index-driver-revenue.dart';
 import 'package:truck_booking_admin/screens/revenue-management/index.dart';
 import 'package:truck_booking_admin/screens/truck_location/customer_view.dart';
@@ -58,7 +61,7 @@ class _SidebarState extends State<Sidebar> {
                   ),
 
                   DrawerListTile(
-                    title: "City",
+                    title: "City ",
                     icon: Icon(Icons.apartment, color: AppTheme.sideBarText),
                     press: () {
                       Navigator.pushReplacement(
@@ -537,15 +540,7 @@ class _SidebarState extends State<Sidebar> {
                   DrawerListTile(
                     title: "Cancel Reasons",
                     icon: Icon(Icons.close, color: AppTheme.sideBarText),
-                    press: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => CancelReasonsIndex(),
-                          transitionDuration: const Duration(seconds: 0),
-                        ),
-                      );
-                    },
+                    press: null,
                   ),
                   DrawerListTile(
                     title: "Admins",
@@ -553,11 +548,78 @@ class _SidebarState extends State<Sidebar> {
                         color: AppTheme.sideBarText),
                     press: null,
                   ),
-                  DrawerListTile(
-                    title: "Pages",
-                    icon: Icon(Icons.book, color: AppTheme.sideBarText),
-                    press: null,
+
+                  //pages
+            
+
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.symmetric(horizontal: 18),
+                    iconColor: Colors.white,
+                    title: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 9.0),
+                          child: Icon(
+                            Icons.article_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Pages',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => ListofPages(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.web,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'View Pages',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                     
+                    ],
                   ),
+
+                  // DrawerListTile(
+                  //   title: "Truck Location",
+                  //   icon: Icon(Icons.room, color: AppTheme.sideBarText),
+                  //   press: null,
+                  // ),
+
+     
+
+
+                      //pages
                   DrawerListTile(
                     title: "Notifications",
                     icon:
