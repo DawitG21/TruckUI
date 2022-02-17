@@ -39,7 +39,7 @@ final List<Notifications> notifications = [
 ];
 
 final List<GeneralType> customers = [
-  GeneralType(id: '0', name: 'Emmon Nahyan'),
+  GeneralType(id: '0', name: 'Nahyan Al Nahyan'),
   GeneralType(id: '1', name: 'Dawit Gorfu'),
   GeneralType(id: '2', name: 'Muluken Tekle'),
   GeneralType(id: '3', name: 'Usman Umer'),
