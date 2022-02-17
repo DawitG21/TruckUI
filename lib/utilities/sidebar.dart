@@ -8,12 +8,12 @@ import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
+import 'package:truck_booking_admin/screens/commission/view_commission.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/screens/drivers/index.dart';
 
 import 'package:truck_booking_admin/screens/important_pages/list_of_pages.dart';
-
 
 import 'package:truck_booking_admin/screens/revenue-management/index-driver-revenue.dart';
 import 'package:truck_booking_admin/screens/revenue-management/index.dart';
@@ -532,10 +532,66 @@ class _SidebarState extends State<Sidebar> {
                         Icon(Icons.card_giftcard, color: AppTheme.sideBarText),
                     press: null,
                   ),
-                  DrawerListTile(
-                    title: "Commissions",
-                    icon: Icon(Icons.calculate, color: AppTheme.sideBarText),
-                    press: null,
+                  // DrawerListTile(
+                  //   title: "Commissions",
+                  //   icon: Icon(Icons.calculate, color: AppTheme.sideBarText),
+                  //   press: null,
+                  // ),
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.symmetric(horizontal: 18),
+                    iconColor: Colors.white,
+                    title: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 9.0),
+                          child: Icon(
+                            Icons.calculate,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Commission',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => CommissionList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.payment,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'View Commission',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   DrawerListTile(
                     title: "Cancel Reasons",
@@ -550,7 +606,6 @@ class _SidebarState extends State<Sidebar> {
                   ),
 
                   //pages
-            
 
                   ExpansionTile(
                     tilePadding: EdgeInsets.symmetric(horizontal: 18),
@@ -606,7 +661,6 @@ class _SidebarState extends State<Sidebar> {
                           ),
                         ),
                       ),
-                     
                     ],
                   ),
 
@@ -616,10 +670,7 @@ class _SidebarState extends State<Sidebar> {
                   //   press: null,
                   // ),
 
-     
-
-
-                      //pages
+                  //pages
                   DrawerListTile(
                     title: "Notifications",
                     icon:
