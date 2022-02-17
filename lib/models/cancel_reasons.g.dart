@@ -12,8 +12,8 @@ CancelReasons _$CancelReasonsFromJson(Map<String, dynamic> json) =>
       reasonType: json['reasonType'] as String?,
       reasonFor: json['reasonFor'] as String?,
       reason: json['reason'] as String?,
-      cancelPrice: (json['cancelPrice'] as num?)?.toDouble(),
-      cancelDuration: json['cancelDuration'] as int?,
+      cancelPrice: json['cancelPrice'],
+      cancelDuration: json['cancelDuration'],
       cancelType: json['cancelType'] as bool? ?? false,
     );
 

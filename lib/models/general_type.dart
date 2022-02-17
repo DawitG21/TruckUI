@@ -1,17 +1,17 @@
 // Package imports:
 import 'package:json_annotation/json_annotation.dart';
 
-part 'cancel_type.g.dart';
+part 'general_type.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class CancelType {
+class GeneralType {
   String? id;
   String? name;
 
-  CancelType({this.id, this.name});
-  factory CancelType.fromJson(Map<String, dynamic> json) =>
-      _$CancelTypeFromJson(json);
-  Map<String, dynamic> toJson() => _$CancelTypeToJson(this);
+  GeneralType({this.id, this.name});
+  factory GeneralType.fromJson(Map<String, dynamic> json) =>
+      _$GeneralTypeFromJson(json);
+  Map<String, dynamic> toJson() => _$GeneralTypeToJson(this);
 
   @override
   @override

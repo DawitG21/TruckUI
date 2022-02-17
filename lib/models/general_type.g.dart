@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cancel_type.dart';
+part of 'general_type.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CancelType _$CancelTypeFromJson(Map<String, dynamic> json) => CancelType(
+GeneralType _$GeneralTypeFromJson(Map<String, dynamic> json) => GeneralType(
       id: json['id'] as String?,
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$CancelTypeToJson(CancelType instance) =>
+Map<String, dynamic> _$GeneralTypeToJson(GeneralType instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

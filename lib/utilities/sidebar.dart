@@ -5,6 +5,7 @@ import 'package:truck_booking_admin/screens/City/index.dart';
 import 'package:truck_booking_admin/screens/booking/booking_request.dart';
 import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
 import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
+import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
@@ -14,6 +15,7 @@ import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/screens/drivers/index.dart';
 
 import 'package:truck_booking_admin/screens/important_pages/list_of_pages.dart';
+import 'package:truck_booking_admin/screens/notifications/index.dart';
 
 import 'package:truck_booking_admin/screens/revenue-management/index-driver-revenue.dart';
 import 'package:truck_booking_admin/screens/revenue-management/index.dart';
@@ -596,7 +598,15 @@ class _SidebarState extends State<Sidebar> {
                   DrawerListTile(
                     title: "Cancel Reasons",
                     icon: Icon(Icons.close, color: AppTheme.sideBarText),
-                    press: null,
+                    press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => CancelReasonsIndex(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
                   DrawerListTile(
                     title: "Admins",
@@ -664,18 +674,20 @@ class _SidebarState extends State<Sidebar> {
                     ],
                   ),
 
-                  // DrawerListTile(
-                  //   title: "Truck Location",
-                  //   icon: Icon(Icons.room, color: AppTheme.sideBarText),
-                  //   press: null,
-                  // ),
-
                   //pages
                   DrawerListTile(
                     title: "Notifications",
                     icon:
                         Icon(Icons.notifications, color: AppTheme.sideBarText),
-                    press: null,
+                    press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => NotificationsIndex(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
                   DrawerListTile(
                     title: "General Settings",

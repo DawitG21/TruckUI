@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:truck_booking_admin/models/cancel_reasons.dart';
-import 'package:truck_booking_admin/models/cancel_type.dart';
+import 'package:truck_booking_admin/models/general_type.dart';
 
 class CancelProvider with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -73,13 +73,13 @@ final List<CancelReasons> cancelReasons = [
   )
 ];
 
-final List<CancelType> cancelType = [
-  CancelType(id: '0', name: 'City Booking'),
-  CancelType(id: '1', name: 'OutStation Booking'),
-  CancelType(id: '2', name: 'OutStation Pooling'),
+final List<GeneralType> cancelType = [
+  GeneralType(id: '0', name: 'City Booking'),
+  GeneralType(id: '1', name: 'OutStation Booking'),
+  GeneralType(id: '2', name: 'OutStation Pooling'),
 ];
 
-final List<CancelType> cancelledFor = [
-  CancelType(id: '0', name: 'Customer'),
-  CancelType(id: '1', name: 'Driver'),
+final List<GeneralType> cancelledFor = [
+  GeneralType(id: '0', name: 'Customer'),
+  GeneralType(id: '1', name: 'Driver'),
 ];
