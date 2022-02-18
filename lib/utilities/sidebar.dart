@@ -5,17 +5,18 @@ import 'package:truck_booking_admin/screens/City/index.dart';
 import 'package:truck_booking_admin/screens/booking/booking_request.dart';
 import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
 import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
-import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:truck_booking_admin/screens/commission/view_commission.dart';
+import 'package:truck_booking_admin/screens/customer-enquiry/driver_enquiry.dart';
+import 'package:truck_booking_admin/screens/customer-enquiry/index.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/screens/drivers/index.dart';
+import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
 
 import 'package:truck_booking_admin/screens/important_pages/list_of_pages.dart';
-import 'package:truck_booking_admin/screens/notifications/index.dart';
 
 import 'package:truck_booking_admin/screens/revenue-management/index-driver-revenue.dart';
 import 'package:truck_booking_admin/screens/revenue-management/index.dart';
@@ -596,13 +597,13 @@ class _SidebarState extends State<Sidebar> {
                     ],
                   ),
                   DrawerListTile(
-                    title: "Cancel Reasons",
-                    icon: Icon(Icons.close, color: AppTheme.sideBarText),
+                    title: "Cancel Reason ",
+                    icon: Icon(Icons.apartment, color: AppTheme.sideBarText),
                     press: () {
                       Navigator.pushReplacement(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => CancelReasonsIndex(),
+                          pageBuilder: (_, __, ___) =>  CancelReasonsIndex (),
                           transitionDuration: const Duration(seconds: 0),
                         ),
                       );
@@ -674,32 +675,114 @@ class _SidebarState extends State<Sidebar> {
                     ],
                   ),
 
+                  // DrawerListTile(
+                  //   title: "Truck Location",
+                  //   icon: Icon(Icons.room, color: AppTheme.sideBarText),
+                  //   press: null,
+                  // ),
+
                   //pages
                   DrawerListTile(
                     title: "Notifications",
                     icon:
                         Icon(Icons.notifications, color: AppTheme.sideBarText),
-                    press: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => NotificationsIndex(),
-                          transitionDuration: const Duration(seconds: 0),
-                        ),
-                      );
-                    },
+                    press: null,
                   ),
                   DrawerListTile(
                     title: "General Settings",
                     icon: Icon(Icons.settings, color: AppTheme.sideBarText),
                     press: null,
                   ),
-                  DrawerListTile(
-                    title: "Enquiry",
-                    icon: Icon(Icons.admin_panel_settings,
-                        color: AppTheme.sideBarText),
-                    press: null,
+
+                   ExpansionTile(
+                    tilePadding: EdgeInsets.symmetric(horizontal: 18),
+                    iconColor: Colors.white,
+                    title: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 9.0),
+                          child: Icon(
+                            Icons.question_answer,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Enquiry',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => EnquiryIndex(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.question_answer_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Customer Enquiry',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => const DriverEnquiry(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.question_answer_sharp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Driver Enquiry',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+
+
                 ],
               ),
             ),
