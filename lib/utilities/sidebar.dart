@@ -8,6 +8,7 @@ import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
+import 'package:truck_booking_admin/screens/coupons/coupons_list.dart';
 import 'package:truck_booking_admin/screens/commission/view_commission.dart';
 import 'package:truck_booking_admin/screens/customer-enquiry/driver_enquiry.dart';
 import 'package:truck_booking_admin/screens/customer-enquiry/index.dart';
@@ -533,7 +534,15 @@ class _SidebarState extends State<Sidebar> {
                     title: "Coupons",
                     icon:
                         Icon(Icons.card_giftcard, color: AppTheme.sideBarText),
-                    press: null,
+                    press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => const CouponList(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
                   // DrawerListTile(
                   //   title: "Commissions",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:truck_booking_admin/providers/cancel_reasons_provider.dart';
 import 'package:truck_booking_admin/providers/category_provider.dart';
+import 'package:truck_booking_admin/providers/coupon_provider.dart';
 import 'package:truck_booking_admin/providers/city_provider.dart';
 import 'package:truck_booking_admin/providers/customer_provider.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
@@ -16,6 +17,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => MenuController()),
       ChangeNotifierProvider.value(value: CategoryProvider()),
       ChangeNotifierProvider.value(value: CustomerProvider()),
+      ChangeNotifierProvider.value(value: CouponProvider()),
       ChangeNotifierProvider.value(value: CityProvider()),
       ChangeNotifierProvider.value(value: CancelProvider()),
       ChangeNotifierProvider.value(value: ToastProvider()),
