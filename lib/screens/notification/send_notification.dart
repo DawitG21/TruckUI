@@ -7,7 +7,7 @@ import 'package:truck_booking_admin/models/notification.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
 import 'package:truck_booking_admin/providers/notifications_provider.dart';
 import 'package:truck_booking_admin/providers/toast_provider.dart';
-import 'package:truck_booking_admin/screens/notifications/index.dart';
+import 'package:truck_booking_admin/screens/notification/index.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
 
@@ -23,20 +23,49 @@ class _SendNotificationState extends State<SendNotification> {
   TextEditingController subject = TextEditingController();
   TextEditingController messages = TextEditingController();
   TextEditingController customer = TextEditingController();
-
+  late GlobalKey<FormState> _formKeySendMessage;
   TrueFalse _optionCancelType = TrueFalse.False;
 
-  send() async {
-    Notifications message = Notifications(
-      id: DateTime.now().toString(),
-      type: type.text as bool,
-      subject: subject.text,
-      message: messages.text,
-      createdAt: DateTime.now(),
+  @override
+  void initState() {
+    super.initState();
+    _formKeySendMessage = GlobalKey();
+  }
+
+  @override
+  void dispose() {
+    type.dispose();
+    subject.dispose();
+    messages.dispose();
+    customer.dispose();
+    super.dispose();
+  }
+
+  _back() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => NotificationIndex(),
+        transitionDuration: Duration(seconds: 0),
+      ),
     );
-    await Provider.of<NotificationProvider>(context, listen: false)
-        .sendNotification(message);
-    toastMessage('Sucessful');
+  }
+
+  send() async {
+    if (_formKeySendMessage.currentState!.validate()) {
+      Notifications message = Notifications(
+        id: DateTime.now().toString(),
+        type: type.text as bool,
+        subject: subject.text,
+        message: messages.text,
+        createdAt: DateTime.now(),
+      );
+      await Provider.of<NotificationProvider>(context, listen: false)
+          .sendNotification(message);
+      toastMessage('Sucess');
+    } else {
+      toastMessage('Error');
+    }
   }
 
   @override
@@ -44,86 +73,47 @@ class _SendNotificationState extends State<SendNotification> {
     return Scaffold(
       drawer: Sidebar(),
       key: Provider.of<MenuController>(context, listen: false).scaffoldKey,
+      backgroundColor: AppTheme.contentBackgroundColor,
       body: SafeArea(
-        child: Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Sidebar(),
-              ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Sidebar(),
+            ),
 
-              /// Main Body Part
-              Expanded(
-                flex: 4,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.contentBackgroundColor,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        padding: EdgeInsets.all(15),
-                        color: AppTheme.contentTextHeader,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                  child: Icon(Icons.arrow_back_ios),
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (_, __, ___) =>
-                                            NotificationsIndex(),
-                                        transitionDuration:
-                                            Duration(seconds: 0),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Text(
-                                  "Send Notification",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            TextButton(
-                              style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue),
-                              ),
-                              onPressed: () {
-                                send();
-                              },
-                              child: Text('Send'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(),
-                      _buildForm,
-                    ],
-                  ),
-                ),
+            /// Main Body Part
+            Expanded(
+              flex: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                    //color: AppColor.bgContainer,
+                    //color: AppTheme.contentBackgroundColor,
+                    ),
+                child: _buildForm,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget get _buildForm {
-    return Expanded(
-      child: Form(
-        child: Column(
-          children: [
-            Row(
+    return Form(
+      key: _formKeySendMessage,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _editUnitHeader,
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, top: 15.0),
+            child: Text('Mandatory fields are marked with (*)'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                   child: Padding(
@@ -159,6 +149,8 @@ class _SendNotificationState extends State<SendNotification> {
                       keyboardType: TextInputType.multiline,
                       textInputAction: TextInputAction.newline,
                       maxLines: 2,
+                      validator: (value) =>
+                          value == null ? "Subject is required " : null,
                       decoration: InputDecoration(
                         labelText: 'Subject *',
                         hintText: 'e.g Holiday Offers',
@@ -170,7 +162,10 @@ class _SendNotificationState extends State<SendNotification> {
                 ),
               ],
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                   child: Padding(
@@ -182,6 +177,8 @@ class _SendNotificationState extends State<SendNotification> {
                       textInputAction: TextInputAction.newline,
                       minLines: 1,
                       maxLines: 5,
+                      validator: (value) =>
+                          value == null ? "Message is required " : null,
                       decoration: InputDecoration(
                         labelText: 'Message *',
                         hintText: 'e.g Enter Message Here',
@@ -196,7 +193,10 @@ class _SendNotificationState extends State<SendNotification> {
                 ),
               ],
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                     child: Column(
@@ -231,10 +231,78 @@ class _SendNotificationState extends State<SendNotification> {
                   ],
                 )),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
+    );
+  }
+
+  Widget get _editUnitHeader {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Row(
+        children: [
+          InkWell(
+            child: navigationIcon(
+              icon: Icons.arrow_left,
+              title: Text(
+                'Send Notification'.toUpperCase(),
+              ),
+            ),
+            onTap: _back,
+          ),
+          Spacer(),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: InkWell(
+                  child: navigationIcon(
+                    icon: Icons.cancel,
+                    title: Text(
+                      'Cancel',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  onTap: _back,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: InkWell(
+                  child: navigationIcon(
+                    icon: Icons.save,
+                    title: Text(
+                      'Save',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  onTap: send,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget navigationIcon({icon, title}) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            icon,
+            color: Colors.red,
+          ),
+        ),
+        Container(
+          child: title,
+        )
+      ],
     );
   }
 }

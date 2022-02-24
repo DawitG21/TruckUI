@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, duplicate_ignore
 
 import 'package:flutter/material.dart';
 import 'package:truck_booking_admin/models/enquiry.dart';
@@ -13,9 +13,7 @@ class CustomerEnquiry extends StatefulWidget {
 }
 
 class _CustomerEnquiryState extends State<CustomerEnquiry> {
-
- 
-final List<Enquiry> enquiries = [
+  final List<Enquiry> enquiries = [
     Enquiry(
         id: "1",
         name: "Customer One",
@@ -23,8 +21,7 @@ final List<Enquiry> enquiries = [
         subject: "Customer Subject",
         cdenquiry: "Customer Enquiry",
         type: "type",
-        date: DateTime.now().toString()
-    )
+        date: DateTime.now().toString())
   ];
 
   @override
@@ -38,9 +35,8 @@ final List<Enquiry> enquiries = [
             color: AppTheme.contentTextHeader,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:const [
-                 Text("Customer Enquiry"),
-                
+              children: const [
+                Text("Customer Enquiry"),
               ],
             ),
           ),
@@ -103,9 +99,6 @@ final List<Enquiry> enquiries = [
                           overflow: TextOverflow.ellipsis,
                         )),
                       ],
-
-
-
                       rows: enquiries
                           .map<DataRow>(
                             (element) => DataRow(
@@ -114,7 +107,7 @@ final List<Enquiry> enquiries = [
                                   element.id.toString(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
-                                 DataCell(Text(
+                                DataCell(Text(
                                   element.name.toString(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
@@ -134,24 +127,22 @@ final List<Enquiry> enquiries = [
                                   element.type.toString(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
-                                const DataCell(Text('2/17/2022'
-                                  ,
+                                const DataCell(Text(
+                                  '2/17/2022',
                                   overflow: TextOverflow.ellipsis,
                                 )),
-                                
-
                                 DataCell(Row(
                                   children: [
-                                     // ignore: prefer_const_constructors
-                                     CustomerEnquiryPreview(
-                                       name: 'Customer One',
-                                       email: 'customerone@gmail.com',
-                                       subject: 'My Subject',
-                                       cdenquiry: 'My Subject',
-                                       type: 'My Type',
-                                       date: DateTime.now().toString(),
-                                      
-                                    )],
+                                    // ignore: prefer_const_constructors
+                                    CustomerEnquiryPreview(
+                                      name: 'Customer One',
+                                      email: 'customerone@gmail.com',
+                                      subject: 'My Subject',
+                                      cdenquiry: 'My Subject',
+                                      type: 'My Type',
+                                      date: DateTime.now().toString(),
+                                    )
+                                  ],
                                 )),
                               ],
                             ),
@@ -183,4 +174,3 @@ final List<Enquiry> enquiries = [
     );
   }
 }
-

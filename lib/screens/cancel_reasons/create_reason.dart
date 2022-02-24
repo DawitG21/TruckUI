@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:truck_booking_admin/providers/cancel_reasons_provider.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
 import 'package:truck_booking_admin/providers/toast_provider.dart';
-import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
+import 'package:truck_booking_admin/screens/cancel_reasons/index.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
 
@@ -23,19 +23,49 @@ class _CreateReasonState extends State<CreateReason> {
   TextEditingController reasonFor = TextEditingController();
   TextEditingController reason_ = TextEditingController();
   TextEditingController cancellationType = TextEditingController();
-
+  late GlobalKey<FormState> _formKeyCancelReason;
   TrueFalse _optionCancelType = TrueFalse.False;
 
-  create() async {
-    CancelReasons reason = CancelReasons(
-      id: DateTime.now().toString(),
-      reasonType: reasonType.text,
-      reasonFor: reasonFor.text,
-      reason: reason_.text,
-      cancelType: cancellationType.text as bool,
+  @override
+  void initState() {
+    super.initState();
+    _formKeyCancelReason = GlobalKey();
+  }
+
+  @override
+  void dispose() {
+    reasonType.dispose();
+    reasonFor.dispose();
+    reason_.dispose();
+    cancellationType.dispose();
+    super.dispose();
+  }
+
+  _back() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => CancelReasonsIndex(),
+        transitionDuration: Duration(seconds: 0),
+      ),
     );
-    await Provider.of<CancelProvider>(context, listen: false).addReason(reason);
-    toastMessage('Sucessful');
+  }
+
+  create() async {
+    if (_formKeyCancelReason.currentState!.validate()) {
+      CancelReasons reason = CancelReasons(
+        id: DateTime.now().toString(),
+        reasonType: reasonType.text,
+        reasonFor: reasonFor.text,
+        reason: reason_.text,
+        cancelType: cancellationType.text as bool,
+      );
+      await Provider.of<CancelProvider>(context, listen: false)
+          .addReason(reason);
+      toastMessage('Sucess');
+    } else {
+      toastMessage('Error');
+    }
   }
 
   @override
@@ -43,87 +73,47 @@ class _CreateReasonState extends State<CreateReason> {
     return Scaffold(
       drawer: Sidebar(),
       key: Provider.of<MenuController>(context, listen: false).scaffoldKey,
+      backgroundColor: AppTheme.contentBackgroundColor,
       body: SafeArea(
-        child: Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Sidebar(),
-              ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Sidebar(),
+            ),
 
-              /// Main Body Part
-              Expanded(
-                flex: 4,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.contentBackgroundColor,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        padding: EdgeInsets.all(15),
-                        color: AppTheme.contentTextHeader,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                  child: Icon(Icons.arrow_back_ios),
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (_, __, ___) =>
-                                            CancelReasonsIndex(),
-                                        transitionDuration:
-                                            Duration(seconds: 0),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Text(
-                                  "Create Reason",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            TextButton(
-                              style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue),
-                              ),
-                              onPressed: () {
-                                create();
-                                //_createReason();
-                              },
-                              child: Text('Save'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(),
-                      _buildForm,
-                    ],
-                  ),
-                ),
+            /// Main Body Part
+            Expanded(
+              flex: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                    //color: AppColor.bgContainer,
+                    //color: AppTheme.contentBackgroundColor,
+                    ),
+                child: _buildForm,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget get _buildForm {
-    return Expanded(
-      child: Form(
-        child: Column(
-          children: [
-            Row(
+    return Form(
+      key: _formKeyCancelReason,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _createReasonHeader,
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, top: 15.0),
+            child: Text('Mandatory fields are marked with (*)'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                   child: Padding(
@@ -139,7 +129,7 @@ class _CreateReasonState extends State<CreateReason> {
                       validator: (value) => value == null
                           ? "Cancellation type is required "
                           : null,
-                      label: "Cancellation Type",
+                      label: "Cancellation Type *",
                       onChanged: (value) {
                         reasonType.text = value.name;
                       },
@@ -165,7 +155,7 @@ class _CreateReasonState extends State<CreateReason> {
                       autoValidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) =>
                           value == null ? "Cancelled For is required " : null,
-                      label: "Cancellation For",
+                      label: "Cancellation For *",
                       onChanged: (value) {
                         reasonType.text = value.name;
                       },
@@ -180,7 +170,10 @@ class _CreateReasonState extends State<CreateReason> {
                 ),
               ],
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                   child: Padding(
@@ -206,7 +199,10 @@ class _CreateReasonState extends State<CreateReason> {
                 ),
               ],
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                     child: Column(
@@ -241,10 +237,78 @@ class _CreateReasonState extends State<CreateReason> {
                   ],
                 )),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
+    );
+  }
+
+  Widget get _createReasonHeader {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Row(
+        children: [
+          InkWell(
+            child: navigationIcon(
+              icon: Icons.arrow_left,
+              title: Text(
+                'Create Reason'.toUpperCase(),
+              ),
+            ),
+            onTap: _back,
+          ),
+          Spacer(),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: InkWell(
+                  child: navigationIcon(
+                    icon: Icons.cancel,
+                    title: Text(
+                      'Cancel',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  onTap: _back,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: InkWell(
+                  child: navigationIcon(
+                    icon: Icons.save,
+                    title: Text(
+                      'Save',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  onTap: create,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget navigationIcon({icon, title}) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            icon,
+            color: Colors.red,
+          ),
+        ),
+        Container(
+          child: title,
+        )
+      ],
     );
   }
 }

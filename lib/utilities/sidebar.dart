@@ -7,6 +7,7 @@ import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
 import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/customer_cancellation.dart';
 import 'package:truck_booking_admin/screens/cancel-rides/driver_cancellation.dart';
+import 'package:truck_booking_admin/screens/cancel_reasons/index.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:truck_booking_admin/screens/coupons/coupons_list.dart';
 import 'package:truck_booking_admin/screens/commission/view_commission.dart';
@@ -15,9 +16,9 @@ import 'package:truck_booking_admin/screens/customer-enquiry/index.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/screens/drivers/index.dart';
-import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
 
 import 'package:truck_booking_admin/screens/important_pages/list_of_pages.dart';
+import 'package:truck_booking_admin/screens/notification/index.dart';
 
 import 'package:truck_booking_admin/screens/revenue-management/index-driver-revenue.dart';
 import 'package:truck_booking_admin/screens/revenue-management/index.dart';
@@ -612,7 +613,7 @@ class _SidebarState extends State<Sidebar> {
                       Navigator.pushReplacement(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) =>  CancelReasonsIndex (),
+                          pageBuilder: (_, __, ___) => CancelReasonsIndex(),
                           transitionDuration: const Duration(seconds: 0),
                         ),
                       );
@@ -695,7 +696,15 @@ class _SidebarState extends State<Sidebar> {
                     title: "Notifications",
                     icon:
                         Icon(Icons.notifications, color: AppTheme.sideBarText),
-                    press: null,
+                    press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => NotificationIndex(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
                   DrawerListTile(
                     title: "General Settings",
@@ -703,7 +712,7 @@ class _SidebarState extends State<Sidebar> {
                     press: null,
                   ),
 
-                   ExpansionTile(
+                  ExpansionTile(
                     tilePadding: EdgeInsets.symmetric(horizontal: 18),
                     iconColor: Colors.white,
                     title: Row(
@@ -762,7 +771,8 @@ class _SidebarState extends State<Sidebar> {
                           Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => const DriverEnquiry(),
+                              pageBuilder: (_, __, ___) =>
+                                  const DriverEnquiry(),
                               transitionDuration: const Duration(seconds: 0),
                             ),
                           );
@@ -790,8 +800,6 @@ class _SidebarState extends State<Sidebar> {
                       ),
                     ],
                   ),
-
-
                 ],
               ),
             ),

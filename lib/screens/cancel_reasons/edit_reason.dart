@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_ructors, prefer__ructors, prefer_const_constructors, use_key_in_widget_constructors, unnecessary_new, constant_identifier_names, prefer_final_fields, avoid_print, prefer_typing_uninitialized_variables
+// ignore_for_file: use_key_in_widget_ructors, prefer__ructors, prefer_const_constructors, use_key_in_widget_constructors, unnecessary_new, constant_identifier_names, prefer_final_fields, avoid_print, prefer_typing_uninitialized_variables, body_might_complete_normally_nullable
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:truck_booking_admin/providers/cancel_reasons_provider.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
 import 'package:truck_booking_admin/providers/toast_provider.dart';
-import 'package:truck_booking_admin/screens/cancel-reasons/index.dart';
+import 'package:truck_booking_admin/screens/cancel_reasons/index.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/utilities/sidebar.dart';
 
@@ -25,31 +25,59 @@ class _EditReasonState extends State<EditReason> {
   TextEditingController reason_ = TextEditingController();
   TextEditingController cancellationType = TextEditingController();
   TextEditingController cancellationFee = TextEditingController();
-
+  late GlobalKey<FormState> _formKeyEditCancellation;
   TrueFalse _optionCancelType = TrueFalse.False;
-  // var _updatedCancelRule = CancelReasons();
   var _isInit = true;
   var fee, type, item, val;
 
-  update() async {
-    CancelReasons reason = CancelReasons(
-      id: DateTime.now().toString(),
-      reasonType: reasonType.text,
-      reasonFor: reasonFor.text,
-      reason: reason_.text,
-      cancelType: cancellationType.text as bool,
-      cancelPrice: double.parse(cancellationFee.text),
+  @override
+  void initState() {
+    super.initState();
+    _formKeyEditCancellation = GlobalKey();
+  }
+
+  @override
+  void dispose() {
+    reasonType.dispose();
+    reasonFor.dispose();
+    reason_.dispose();
+    cancellationType.dispose();
+    super.dispose();
+  }
+
+  _back() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => CancelReasonsIndex(),
+        transitionDuration: Duration(seconds: 0),
+      ),
     );
-    await Provider.of<CancelProvider>(context, listen: false)
-        .editReason(reason);
-    toastMessage('Sucessful');
+  }
+
+  update() async {
+    if (_formKeyEditCancellation.currentState!.validate()) {
+      CancelReasons reason = CancelReasons(
+        id: DateTime.now().toString(),
+        reasonType: reasonType.text,
+        reasonFor: reasonFor.text,
+        reason: reason_.text,
+        cancelType: cancellationType.text as bool,
+        cancelPrice: double.parse(cancellationFee.text),
+      );
+      await Provider.of<CancelProvider>(context, listen: false)
+          .editReason(reason);
+      toastMessage('Sucess');
+    } else {
+      toastMessage('Error');
+    }
   }
 
   @override
   void didChangeDependencies() {
     final cancelReason =
         ModalRoute.of(context)!.settings.arguments as CancelReasons;
-    print('reason: $cancelReason');
+    print('reason: ${cancelReason.reason}');
 
     if (_isInit) {
       if (cancelReason.id != null) {
@@ -73,86 +101,46 @@ class _EditReasonState extends State<EditReason> {
     return Scaffold(
       drawer: Sidebar(),
       key: Provider.of<MenuController>(context, listen: false).scaffoldKey,
+      backgroundColor: AppTheme.contentBackgroundColor,
       body: SafeArea(
-        child: Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Sidebar(),
-              ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Sidebar(),
+            ),
 
-              /// Main Body Part
-              Expanded(
-                flex: 4,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.contentBackgroundColor,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        padding: EdgeInsets.all(15),
-                        color: AppTheme.contentTextHeader,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                  child: Icon(Icons.arrow_back_ios),
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (_, __, ___) =>
-                                            CancelReasonsIndex(),
-                                        transitionDuration:
-                                            Duration(seconds: 0),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Text(
-                                  "Update Reason",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            TextButton(
-                              style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue),
-                              ),
-                              onPressed: () {
-                                update();
-                              },
-                              child: Text('Save'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(),
-                      _buildForm,
-                    ],
-                  ),
+            /// Main Body Part
+            Expanded(
+              flex: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.contentBackgroundColor,
                 ),
+                child: _buildForm,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget get _buildForm {
-    return Expanded(
-      child: Form(
-        child: Column(
-          children: [
-            Row(
+    return Form(
+      key: _formKeyEditCancellation,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _updateReasonHeader,
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, top: 15.0),
+            child: Text('Mandatory fields are marked with (*)'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                   child: Padding(
@@ -169,7 +157,7 @@ class _EditReasonState extends State<EditReason> {
                       validator: (value) => value == null
                           ? "Cancellation type is required "
                           : null,
-                      label: type,
+                      label: '$type *',
                       onChanged: (value) {
                         reasonType.text = value.name;
                       },
@@ -196,7 +184,7 @@ class _EditReasonState extends State<EditReason> {
                       autoValidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) =>
                           value == null ? "Cancelled For is required " : null,
-                      label: item,
+                      label: '$item *',
                       onChanged: (value) {
                         reasonFor.text = value.name;
                       },
@@ -211,7 +199,10 @@ class _EditReasonState extends State<EditReason> {
                 ),
               ],
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                   child: Padding(
@@ -237,7 +228,10 @@ class _EditReasonState extends State<EditReason> {
                 ),
               ],
             ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
               children: [
                 Expanded(
                     child: Column(
@@ -302,10 +296,78 @@ class _EditReasonState extends State<EditReason> {
                   ),
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
+    );
+  }
+
+  Widget get _updateReasonHeader {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Row(
+        children: [
+          InkWell(
+            child: navigationIcon(
+              icon: Icons.arrow_left,
+              title: Text(
+                'Update Reason'.toUpperCase(),
+              ),
+            ),
+            onTap: _back,
+          ),
+          Spacer(),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: InkWell(
+                  child: navigationIcon(
+                    icon: Icons.cancel,
+                    title: Text(
+                      'Cancel',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  onTap: _back,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: InkWell(
+                  child: navigationIcon(
+                    icon: Icons.save,
+                    title: Text(
+                      'Save',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  onTap: update,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget navigationIcon({icon, title}) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            icon,
+            color: Colors.red,
+          ),
+        ),
+        Container(
+          child: title,
+        )
+      ],
     );
   }
 }

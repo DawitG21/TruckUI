@@ -6,6 +6,7 @@ import 'package:truck_booking_admin/providers/coupon_provider.dart';
 import 'package:truck_booking_admin/providers/city_provider.dart';
 import 'package:truck_booking_admin/providers/customer_provider.dart';
 import 'package:truck_booking_admin/providers/menu_controller.dart';
+import 'package:truck_booking_admin/providers/notifications_provider.dart';
 import 'package:truck_booking_admin/providers/toast_provider.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -21,6 +22,7 @@ void main() {
       ChangeNotifierProvider.value(value: CityProvider()),
       ChangeNotifierProvider.value(value: CancelProvider()),
       ChangeNotifierProvider.value(value: ToastProvider()),
+      ChangeNotifierProvider.value(value: NotificationProvider()),
     ],
     child: const MyApp(),
   ));
