@@ -16,6 +16,7 @@ import 'package:truck_booking_admin/screens/customer-enquiry/index.dart';
 import 'package:truck_booking_admin/screens/customers/index.dart';
 import 'package:truck_booking_admin/screens/dashboard/index.dart';
 import 'package:truck_booking_admin/screens/drivers/index.dart';
+import 'package:truck_booking_admin/screens/general-settings/general_settings.dart';
 
 import 'package:truck_booking_admin/screens/important_pages/list_of_pages.dart';
 import 'package:truck_booking_admin/screens/notification/index.dart';
@@ -709,7 +710,15 @@ class _SidebarState extends State<Sidebar> {
                   DrawerListTile(
                     title: "General Settings",
                     icon: Icon(Icons.settings, color: AppTheme.sideBarText),
-                    press: null,
+                    press: () {
+                      Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => GeneralSettingsIndex(),
+                          transitionDuration: const Duration(seconds: 0),
+                        ),
+                      );
+                    },
                   ),
 
                   ExpansionTile(
