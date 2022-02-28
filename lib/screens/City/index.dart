@@ -27,7 +27,7 @@ class _IndexCitysState extends State<IndexCity> {
               child: Sidebar(),
             ),
             Expanded(
-              flex: 6,
+              flex: 4,
               child: CityList(),
             ),
           ],

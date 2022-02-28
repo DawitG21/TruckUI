@@ -30,7 +30,7 @@ class _CityListState extends State<CityList> {
     City(
       id: "ac3c1087-ecec-413f-9fdc-1f7b8ce99ops",
       name: "Welega",
-      weight: 10.5,
+      // weight: 10.5,
       radius: 70.0,
       latitude: 77.2217831,
       longtude: 78.2217831,
@@ -41,11 +41,13 @@ class _CityListState extends State<CityList> {
   @override
   void didChangeDependencies() async {
     final SharedPreferences prefs = await _prefs;
-    await prefs.setString('city_key', encodedData);
+    // await prefs.setString('city_key', encodedData);
+    // await prefs.remove('city_key');
     final String? storageKey = prefs.getString('city_key');
     setState(() {
-      cities = City.decode(storageKey!);
-      //print(cities);
+      if (storageKey != null) {
+      cities = City.decode(storageKey);
+      }
     });
     super.didChangeDependencies();
   }
@@ -153,12 +155,12 @@ class _CityListState extends State<CityList> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        DataColumn(
-                          label: Text(
-                            'Weight',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                        // DataColumn(
+                        //   label: Text(
+                        //     'Weight',
+                        //     overflow: TextOverflow.ellipsis,
+                        //   ),
+                        // ),
                         DataColumn(
                           label: Text(
                             'Radius',
@@ -196,10 +198,10 @@ class _CityListState extends State<CityList> {
                                   element.name.toString().toUpperCase(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
-                                DataCell(Text(
-                                  element.weight.toString(),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
+                                // DataCell(Text(
+                                //   element.weight.toString(),
+                                //   overflow: TextOverflow.ellipsis,
+                                // )),
                                 DataCell(Text(
                                   element.radius.toString(),
                                   overflow: TextOverflow.ellipsis,
