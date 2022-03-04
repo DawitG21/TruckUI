@@ -18,45 +18,24 @@ class EditCity extends StatefulWidget {
 }
 
 class _EditCityState extends State<EditCity> {
-  String id = '';
+  String _id ='';
   TextEditingController cityName = TextEditingController();
   TextEditingController radius = TextEditingController();
+
+  TextEditingController latitude = TextEditingController();
+  TextEditingController longtiude = TextEditingController();
   // ignore: prefer_final_fields
-  String _id = '';
-
-  // save() async {
-  //   City city = City(
-  //     id: id,
-  //     name: name.text,
-  //     radius: double.parse(radius.text),
-  //   );
-  //   await Provider.of<CityProvider>(context, listen: false).editCity(city);
-  //   toastMessage('Sucessful');
-  // }
-
-  // toastMessage(msg) {
-  //   Fluttertoast.showToast(
-  //     msg: "$msg",
-  //     timeInSecForIosWeb: 5,
-  //     webShowClose: true,
-  //     toastLength: Toast.LENGTH_SHORT,
-  //     gravity: ToastGravity.CENTER,
-  //     backgroundColor: Colors.red,
-  //     textColor: Colors.white,
-  //     fontSize: 16.0,
-  //   );
-  // }
+ 
+  DateTime _date = DateTime.now();
 
   save() async {
     City city = City(
       id: _id,
       name: cityName.text,
       radius: double.parse(radius.text),
-
-      // phone: phone.text,
-      // address: address.text,
-      // isActive: _isActive,
-      // date: _date,
+      latitude: double.parse(latitude.text),
+      longtude: double.parse(longtiude.text),
+      date: _date,
     );
     await Provider.of<CityProvider>(context, listen: false).editCity(city);
     toastMessage('Sucessful');
@@ -78,10 +57,14 @@ class _EditCityState extends State<EditCity> {
   @override
   void didChangeDependencies() {
     final City city = ModalRoute.of(context)!.settings.arguments as City;
-    id = city.id.toString();
+
+    _id = city.id.toString();
     cityName.text = city.name.toString();
     radius.text = city.radius.toString();
-    //how? bool to string
+    latitude.text = city.latitude.toString();
+    longtiude.text = city.longtude.toString();
+    _date = city.date!;
+    
     super.didChangeDependencies();
   }
 
@@ -215,6 +198,34 @@ class _EditCityState extends State<EditCity> {
                       controller: radius,
                       decoration: InputDecoration(
                         labelText: 'Radius ',
+                        hintText: 'e.g 1212.1223',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: latitude,
+                      decoration: InputDecoration(
+                        labelText: 'Latitude ',
+                        hintText: 'e.g 1212.1223',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: longtiude,
+                      decoration: InputDecoration(
+                        labelText: 'Longtide ',
                         hintText: 'e.g 1212.1223',
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0)),

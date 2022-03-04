@@ -1,6 +1,6 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:truck_booking_admin/models/city.dart';
@@ -8,12 +8,13 @@ import 'package:truck_booking_admin/screens/City/add_city.dart';
 import 'package:truck_booking_admin/screens/City/edit_city.dart';
 import 'package:truck_booking_admin/utilities/app_theme.dart';
 import 'package:truck_booking_admin/widgets/city_preview.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:truck_booking_admin/providers/city_provider.dart';
 
 // import 'package:truck_booking_admin/widgets/city_preview.dart';
 // ignore: unused_import
 import 'package:truck_booking_admin/widgets/modal_side_list.dart';
+
 
 class CityList extends StatefulWidget {
   const CityList({Key? key}) : super(key: key);
@@ -28,13 +29,12 @@ class _CityListState extends State<CityList> {
   List<City> cities = [];
   final String encodedData = City.encode([
     City(
-      id: "ac3c1087-ecec-413f-9fdc-1f7b8ce99ops",
+      id: "1",
       name: "Welega",
-      // weight: 10.5,
       radius: 70.0,
       latitude: 77.2217831,
       longtude: 78.2217831,
-      date: "1/4/2022",
+      date: DateTime.now(),
     ),
   ]);
 
@@ -45,9 +45,9 @@ class _CityListState extends State<CityList> {
     // await prefs.remove('city_key');
     final String? storageKey = prefs.getString('city_key');
     setState(() {
-      if (storageKey != null) {
-      cities = City.decode(storageKey);
-      }
+      
+        cities = City.decode(storageKey!);
+      
     });
     super.didChangeDependencies();
   }
@@ -73,6 +73,8 @@ class _CityListState extends State<CityList> {
         transitionDuration: const Duration(seconds: 0),
       ),
     );
+      
+
   }
 
   _editCity(arg) {
@@ -155,12 +157,6 @@ class _CityListState extends State<CityList> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        // DataColumn(
-                        //   label: Text(
-                        //     'Weight',
-                        //     overflow: TextOverflow.ellipsis,
-                        //   ),
-                        // ),
                         DataColumn(
                           label: Text(
                             'Radius',
@@ -175,18 +171,19 @@ class _CityListState extends State<CityList> {
                         ),
                         DataColumn(
                           label: Text(
-                            'Longtude',
+                            'Longitude',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            'Date',
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         DataColumn(
                             label: Text(
-                          'Date',
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                        DataColumn(
-                            label: Text(
-                          '',
+                          'Action',
                           overflow: TextOverflow.ellipsis,
                         )),
                       ],
@@ -195,13 +192,9 @@ class _CityListState extends State<CityList> {
                             (element) => DataRow(
                               cells: [
                                 DataCell(Text(
-                                  element.name.toString().toUpperCase(),
+                                  element.name.toString(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
-                                // DataCell(Text(
-                                //   element.weight.toString(),
-                                //   overflow: TextOverflow.ellipsis,
-                                // )),
                                 DataCell(Text(
                                   element.radius.toString(),
                                   overflow: TextOverflow.ellipsis,
@@ -215,24 +208,26 @@ class _CityListState extends State<CityList> {
                                   overflow: TextOverflow.ellipsis,
                                 )),
                                 DataCell(Text(
-                                  element.date.toString(),
+                                  DateFormat("yyyy-MM-dd")
+                                      .format(element.date!)
+                                      .toString(),
                                   overflow: TextOverflow.ellipsis,
                                 )),
                                 DataCell(Row(
                                   children: [
-                                    const CityDetailPreview(
-                                      'Welega',
-                                      //  50,
-                                      102.121,
-                                      12221.122,
-                                      // 100,
-                                      // 'Registered on - 2021-01-12',
+                                    CityDetailPreview(
+                                      element.name!,
+                                      element.radius!,
+                                      element.latitude!,
+                                      element.longtude!,
+                                      element.date!.toString(),
+
+                                
                                     ),
-                                    //IconButton(onPressed: Cit, icon:const Icon(Icons.visibility),),
+                                   // IconButton(onPressed: (){setState(() {}); }, icon:const Icon(Icons.refresh),),
                                     IconButton(
                                       tooltip: 'Edit',
                                       onPressed: () async {
-                                        // _editCity;
                                         _editCity(element);
                                       },
                                       icon: const Icon(Icons.edit),
@@ -240,7 +235,7 @@ class _CityListState extends State<CityList> {
                                     IconButton(
                                       tooltip: 'Delete',
                                       onPressed: () async {
-                                        _deleteCity(element);
+                                        _deleteCity(element.id);
                                       },
                                       icon: const Icon(
                                         Icons.delete_forever,
