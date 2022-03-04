@@ -7,7 +7,7 @@ class City {
   double? radius;
   double? latitude;
   double? longtude;
-  String? date;
+  DateTime? date;
 
   City({
     this.id,
@@ -27,7 +27,7 @@ class City {
       radius: jsonData['radius'],
       latitude: jsonData['latitude'],
       longtude: jsonData['longtude'],
-      date: jsonData['date'],
+      date: DateTime.parse(jsonData['date']),
     );
   }
 
@@ -38,7 +38,7 @@ class City {
         'radius': city.radius,
         'latitude': city.latitude,
         'longtude': city.longtude,
-        'date': city.date
+        'date': city.date!.toIso8601String()
       };
 
   static String encode(List<City> cities) => json.encode(
@@ -50,11 +50,11 @@ class City {
           .map<City>((item) => City.fromJson(item))
           .toList();
 
-  @override
-  toString() {
-    String output =
-        '{id: ${this.id},name: ${this.name},radius:${this.radius},latitude:${this.latitude},longtude:${this.longtude},date:${this.date}}';
+  // @override
+  // toString() {
+  //   String output =
+  //       '{id: ${this.id},name: ${this.name},radius:${this.radius},latitude:${this.latitude},longtude:${this.longtude},date:${this.date}}';
 
-    return output;
-  }
+  //   return output;
+  // }
 }

@@ -18,6 +18,9 @@ class CreateCity extends StatefulWidget {
 class _CreateCityState extends State<CreateCity> {
   TextEditingController cityName = TextEditingController();
   TextEditingController radius = TextEditingController();
+  TextEditingController latitude = TextEditingController();
+  TextEditingController longtiude = TextEditingController();
+  TextEditingController date = TextEditingController();
 
   // create() async {
   //   City city = City(
@@ -48,18 +51,17 @@ class _CreateCityState extends State<CreateCity> {
 
   create() async {
     City city = City(
-      id: DateTime.now().toString(),
+//      id: DateTime.now().toString(),
       name: cityName.text,
       radius: double.parse(radius.text),
-
-      // radius: radius.text.toString(),
-      // phone: phone.text,
-      // date: DateTime.now(),
-      // isActive: _isActive,
-      // address: address.text,
+      latitude: double.parse(radius.text),
+      longtude: double.parse(radius.text),
+      date: DateTime.now(),
     );
     await Provider.of<CityProvider>(context, listen: false).addCity(city);
+
     toastMessage('Sucessful');
+   
   }
 
   toastMessage(msg) {
@@ -84,95 +86,81 @@ class _CreateCityState extends State<CreateCity> {
       key: Provider.of<MenuController>(context, listen: false).scaffoldKey,
       // backgroundColor: AppColor.bgSideMenu,
       body: SafeArea(
-        child: Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Expanded(
-                child: Sidebar(),
-              ),
-
-              /// Main Body Part
-              Expanded(
-                flex: 4,
-                child: Container(
-                  //margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppTheme.contentBackgroundColor,
-                    //borderRadius: BorderRadius.circular(20),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Expanded(
+                    child: Sidebar(),
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        padding: const EdgeInsets.all(15),
-                        color: AppTheme.contentTextHeader,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            Row(
+
+                  /// Main Body Part
+                  Expanded(
+                    flex: 4,
+                    child: Container(
+                      //margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.contentBackgroundColor,
+                        //borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.all(15),
+                            color: AppTheme.contentTextHeader,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // ignore: prefer_const_literals_to_create_immutables
                               children: [
-                                InkWell(
-                                  child: const Icon(Icons.arrow_back_ios),
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (_, __, ___) =>
-                                            const IndexCity(),
-                                        transitionDuration:
-                                            const Duration(seconds: 0),
-                                      ),
-                                    );
-                                  },
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      child: const Icon(Icons.arrow_back_ios),
+                                      onTap: () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (_, __, ___) =>
+                                                const IndexCity(),
+                                            transitionDuration:
+                                                const Duration(seconds: 0),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    const Text("Create City"),
+                                  ],
                                 ),
-                                const Text("Create City"),
+                                TextButton(
+                                  style: ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.blue),
+                                  ),
+                                  onPressed: () {
+                                    create();
+                                    //_createCategory();
+                                  },
+                                  child: const Text('Save'),
+                                ),
                               ],
                             ),
-                            TextButton(
-                              style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue),
-                              ),
-                              onPressed: () {
-                                create();
-                                //_createCategory();
-                              },
-                              child: const Text('Save'),
-                            ),
-                            // TextButton(
-                            //   style: ButtonStyle(
-                            //     foregroundColor:
-                            //         MaterialStateProperty.all<Color>(Colors.blue),
-                            //   ),
-                            //   onPressed: () {
-                            //     Navigator.pushReplacement(k
-                            //       context,
-                            //       PageRouteBuilder(
-                            //         pageBuilder: (_, __, ___) =>
-                            //             const IndexCategory(),
-                            //         transitionDuration:
-                            //             const Duration(seconds: 0),
-                            //       ),
-                            //     );
-                            //   },
-                            //   child: const Text('Back'),
-                            // ),
-                          ],
-                        ),
+                          ),
+                          //City(),
+                          // ignore: prefer_const_constructors
+                          const Divider(),
+                          _buildForm,
+                        ],
                       ),
-                      //City(),
-                      // ignore: prefer_const_constructors
-                      const Divider(),
-                      _buildForm,
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -206,6 +194,34 @@ class _CreateCityState extends State<CreateCity> {
                       controller: radius,
                       decoration: InputDecoration(
                         labelText: 'Radius ',
+                        hintText: 'e.g 1212.1223',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: latitude,
+                      decoration: InputDecoration(
+                        labelText: 'Latitude ',
+                        hintText: 'e.g 1212.1223',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: longtiude,
+                      decoration: InputDecoration(
+                        labelText: 'Longtiude ',
                         hintText: 'e.g 1212.1223',
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0)),

@@ -4,6 +4,7 @@ import 'package:truck_booking_admin/models/city.dart';
 
 class CityProvider with ChangeNotifier {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  
   List<City> cities = [];
 
   addCity(City city) async {
@@ -13,8 +14,8 @@ class CityProvider with ChangeNotifier {
       cities = City.decode(catString);
     }
     cities.add(city);
-    final String catObj = City.encode(cities);
-    await prefs.setString('city_key', catObj);
+    final String ciObj = City.encode(cities);
+    await prefs.setString('city_key', ciObj);
   }
 
   editCity(City cityObj) async {
@@ -27,13 +28,13 @@ class CityProvider with ChangeNotifier {
       if (cities[i].id == cityObj.id) {
         cities[i].name = cityObj.name;
         cities[i].radius = cityObj.radius;
-        // customers[i].phone = customerObj.phone;
-        // customers[i].isActive = customerObj.isActive;
-        // customers[i].address = customerObj.address;
+         cities[i].latitude = cityObj.latitude;
+           cities[i].longtude = cityObj.longtude;
+        
       }
     }
-    final String cusObj = City.encode(cities);
-    await prefs.setString('city_key', cusObj);
+    final String ciObj = City.encode(cities);
+    await prefs.setString('city_key', ciObj);
   }
 
   deleteCity(id) async {
@@ -43,7 +44,7 @@ class CityProvider with ChangeNotifier {
       cities = City.decode(catString);
     }
     cities.removeWhere((element) => element.id == id);
-    final String cusObj = City.encode(cities);
-    await prefs.setString('city_key', cusObj);
+    final String ciObj = City.encode(cities);
+    await prefs.setString('city_key', ciObj);
   }
 }
