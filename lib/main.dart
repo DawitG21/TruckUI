@@ -9,8 +9,6 @@ import 'package:truck_booking_admin/providers/menu_controller.dart';
 import 'package:truck_booking_admin/providers/notifications_provider.dart';
 import 'package:truck_booking_admin/providers/settings_provider.dart';
 import 'package:truck_booking_admin/providers/toast_provider.dart';
-import 'package:truck_booking_admin/screens/City/add_city.dart';
-import 'package:truck_booking_admin/screens/City/city_list.dart';
 import 'package:truck_booking_admin/screens/categories/index.dart';
 import 'package:url_strategy/url_strategy.dart';
 
