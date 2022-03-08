@@ -1,0 +1,336 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:truck_booking_admin/models/admins.dart';
+import 'package:truck_booking_admin/models/permissions.dart';
+import 'package:truck_booking_admin/providers/admin_provider.dart';
+import 'package:truck_booking_admin/providers/menu_controller.dart';
+import 'package:truck_booking_admin/screens/admins/view_admins.dart';
+import 'package:truck_booking_admin/utilities/app_theme.dart';
+import 'package:truck_booking_admin/utilities/sidebar.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+
+class CreateAdmins extends StatefulWidget {
+  const CreateAdmins({Key? key}) : super(key: key);
+
+  @override
+  _CreateAdminsState createState() => _CreateAdminsState();
+}
+
+class Animal {
+  final int id;
+  final String name;
+
+  Animal({
+    required this.id,
+    required this.name,
+  });
+}
+
+class _CreateAdminsState extends State<CreateAdmins> {
+  String dropdownValue = 'One';
+  String defaultPic = 'assets/images/profile.jpg';
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController address = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  static final List<Permission> _permissionLists = [
+    Permission(id: '1', permissionName: 'View City'),
+    Permission(id: '2', permissionName: 'Add City'),
+    Permission(id: '3', permissionName: 'Delete City')
+  ];
+  List<Object?> _permissionListArray = [];
+
+  final _items = _permissionLists
+      .map((permission) =>
+          MultiSelectItem<Permission>(permission, permission.permissionName))
+      .toList();
+
+  create() async {
+    Admin admin = Admin(
+      id: DateTime.now().toString(),
+      firstName: firstName.text,
+      lastName: lastName.text,
+      email: email.text,
+      phone: phone.text,
+      address: address.text,
+      password: password.text,
+      permissions: _permissionListArray as List<Permission>,
+    );
+    await Provider.of<AdminProvider>(context, listen: false).addAdmin(admin);
+    toastMessage('Sucessful');
+  }
+
+  toastMessage(msg) {
+    Fluttertoast.showToast(
+      msg: "$msg",
+      timeInSecForIosWeb: 5,
+      webShowClose: true,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+// ignore: prefer_typing_uninitialized_variables
+  var _imageFile;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const Sidebar(),
+      key: Provider.of<MenuController>(context, listen: false).scaffoldKey,
+      // backgroundColor: AppColor.bgSideMenu,
+      body: SafeArea(
+        child: Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Expanded(
+                child: Sidebar(),
+              ),
+
+              /// Main Body Part
+              Expanded(
+                flex: 4,
+                child: Container(
+                  //margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: AppTheme.contentBackgroundColor,
+                    //borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.all(15),
+                        color: AppTheme.contentTextHeader,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                  child: const Icon(Icons.arrow_back_ios),
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (_, __, ___) =>
+                                            const ViewAdminsList(),
+                                        transitionDuration:
+                                            const Duration(seconds: 0),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const Text("Create Admins"),
+                              ],
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.blue),
+                              ),
+                              onPressed: () {
+                                create();
+                                //_createCategory();
+                              },
+                              child: const Text('Save'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(),
+                      _buildForm,
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget get _buildForm {
+    return Expanded(
+      child: Form(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: firstName,
+                      decoration: InputDecoration(
+                        labelText: 'Driver First Name',
+                        hintText: 'e.g Dave label',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: lastName,
+                      decoration: InputDecoration(
+                        labelText: 'Driver Last Name',
+                        hintText: 'e.g Dave label',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: email,
+                      decoration: InputDecoration(
+                        labelText: 'Email ',
+                        hintText: 'e.g dawit@gmail.com',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: phone,
+                      decoration: InputDecoration(
+                        labelText: 'Phone Number',
+                        hintText: 'e.g +251967574',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: MultiSelectBottomSheetField(
+                      initialChildSize: 0.4,
+                      listType: MultiSelectListType.CHIP,
+                      searchable: true,
+                      buttonText: const Text("Permissions List"),
+                      title: const Text("Permissions"),
+                      items: _items,
+                      onConfirm: (values) {
+                        _permissionListArray = values;
+                      },
+                      chipDisplay: MultiSelectChipDisplay(
+                        onTap: (value) {
+                          setState(() {
+                            _permissionListArray.remove(value);
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: password,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  const Text('List of Permissions',
+                      style: TextStyle(fontSize: 20)),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      child: _imageFile != null
+                          ? Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(_imageFile),
+                                  ),
+                                  borderRadius: BorderRadius.circular(20)),
+                              padding: const EdgeInsets.all(15.0),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image.asset(
+                                  defaultPic,
+                                  height: 100.0,
+                                  width: 100.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // chooseImage(ImageSource.gallery);
+                      },
+                      child: const Text('Upload Picture'),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        elevation: 3,
+                        // ignore: unnecessary_new
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

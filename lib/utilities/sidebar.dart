@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:truck_booking_admin/screens/City/index.dart';
+import 'package:truck_booking_admin/screens/admins/view_admins.dart';
 import 'package:truck_booking_admin/screens/booking/booking_request.dart';
 import 'package:truck_booking_admin/screens/booking/customer_booking.dart';
 import 'package:truck_booking_admin/screens/booking/driver_booking.dart';
@@ -620,11 +621,61 @@ class _SidebarState extends State<Sidebar> {
                       );
                     },
                   ),
-                  DrawerListTile(
-                    title: "Admins",
-                    icon: Icon(Icons.admin_panel_settings,
-                        color: AppTheme.sideBarText),
-                    press: null,
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.symmetric(horizontal: 18),
+                    iconColor: Colors.white,
+                    title: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(right: 9.0),
+                          child: Icon(
+                            Icons.admin_panel_settings,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Admin',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => ViewAdminsList(),
+                              transitionDuration: const Duration(seconds: 0),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(right: 9.0),
+                                child: Icon(
+                                  Icons.engineering,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'View Admins',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
 
                   //pages
